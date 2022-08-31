@@ -20,7 +20,18 @@ class _LoginViewState extends State<LoginView> {
               key: formkey,
               child: ListView(
                 children: [
+                  Text(
+                    "Sign in", 
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
                   SizedBox(height: 10,),
+                  Text(
+                    "Faça login para ter acesso a todas as funcionalidade"
+                  ),
+                  SizedBox(height: 100,),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -31,9 +42,9 @@ class _LoginViewState extends State<LoginView> {
                       )
                     ),
                     validator: MultiValidator([
-                      RequiredValidator(errorText: "* Required"),
-                      EmailValidator(errorText: "Enter valid email id"),
-                    ]),
+                      RequiredValidator(errorText: "Campo obrigatório"),
+                      EmailValidator(errorText: "Email inválido"),
+                    ])
                   ),
                   SizedBox(height: 10,),
                   TextFormField(
@@ -47,9 +58,9 @@ class _LoginViewState extends State<LoginView> {
                       ),                    
                     ),
                     validator: MultiValidator([
-                      RequiredValidator(errorText: "* Required"),
-                      MinLengthValidator(6, errorText: "Password should be atleast 6 characters"),
-                      MaxLengthValidator(15, errorText: "Password should not be greater than 15 characters")
+                      RequiredValidator(errorText: "Campo obrigatório"),
+                      MinLengthValidator(6, errorText: "A senha deve conter no mínimo 6 caracteres"),
+                      PatternValidator(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$', errorText: 'A senha deve conter números, letras maiúsculas e minúsculas')
                     ])
                   ),
                   SizedBox(height: 10,),
@@ -61,18 +72,20 @@ class _LoginViewState extends State<LoginView> {
                             horizontal: 130, vertical: 20),
                         textStyle: TextStyle(
                             fontSize: 25, 
-                            fontWeight: FontWeight.bold)),
-                        onPressed: () => {
-                          if (formkey.currentState!.validate()) {
-                            
-                          }
-                        },
+                            fontWeight: FontWeight.bold
+                            )
+                    ),
+                    onPressed: () => {
+                      if (formkey.currentState!.validate()) {
+                        
+                      }
+                    },
                   ),
                   SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, 
                     children: [
-                      Text("Não Tem cadastro? "),
+                      Text("Não tem cadastro? "),
                       GestureDetector(
                         child: Text(
                           "Cadastre-se",
@@ -80,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
                             color: Colors.blue
                           )
                         ),
-                        onTap: () => (Navigator.pushNamed(context, '')),
+                        onTap: () => (Navigator.pushNamed(context, '/cadastro')),
                       )
                     ]
                   ),
