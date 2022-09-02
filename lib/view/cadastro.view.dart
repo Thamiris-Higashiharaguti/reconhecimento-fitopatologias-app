@@ -1,72 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-class LoginView extends StatefulWidget {
+class CadastroView extends StatefulWidget {
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<CadastroView> createState() => _CadastroViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _CadastroViewState extends State<CadastroView> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
+  
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  
-  String errorMsg = '';
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  void login(BuildContext context) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    try {
-      var result = await auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-      Navigator.of(context).pushNamed('/cadastro');
-
-    } on FirebaseAuthException catch (e){
-      authException(e);
-      showAlertDialog(context);
-    }
-  }
-
-  void authException(FirebaseAuthException e){
-    if (e.code == 'user-not-found') {
-      errorMsg = 'Usuário não cadastrado';
-    } else if (e.code == 'wrong-password' || e.code == 'invalid-email') {
-      errorMsg = 'Credenciais incorretas';
-    } else {
-      errorMsg = 'Entre em contato com o administrador do sistema';
-    }
-  }
-
-  showAlertDialog(BuildContext context){ 
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Atenção!'),
-        content: Text(errorMsg),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
             color: Colors.white,
             padding: EdgeInsets.fromLTRB(40, 60, 40, 0),
             child: Form(
-              //autovalidateMode: AutovalidateMode.disabled,
               key: formkey,
               child: ListView(
                 children: [
                   Text(
-                    "Sign in", 
+                    "Cadastro", 
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold
@@ -111,8 +70,22 @@ class _LoginViewState extends State<LoginView> {
                     ])
                   ),
                   SizedBox(height: 10,),
+                  TextFormField(
+                    controller: confirmPasswordController,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: "Confirme a senha",
+                      labelStyle: TextStyle(
+                        color: Colors.black38,
+                        fontSize: 20,
+                      ),                    
+                    ),
+                    validator: (value) => MatchValidator(errorText: 'A senha não confere').validateMatch(confirmPasswordController.text, passwordController.text),  
+                  ),
+                  SizedBox(height: 10,),
                   ElevatedButton(
-                    child: Text("Login"),
+                    child: Text("Cadastrar"),
                     style: ElevatedButton.styleFrom(
                         primary: Color(0xFF3b8132),
                         padding: EdgeInsets.symmetric(
@@ -124,25 +97,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     onPressed: () => {
                       if (formkey.currentState!.validate()) {
-                        login(context),
+                        
                       }
                     },
-                  ),
-                  SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center, 
-                    children: [
-                      Text("Não tem cadastro? "),
-                      GestureDetector(
-                        child: Text(
-                          "Cadastre-se",
-                          style: TextStyle(
-                            color: Colors.blue
-                          )
-                        ),
-                        onTap: () => (Navigator.pushNamed(context, '/cadastro')),
-                      )
-                    ]
                   ),
                 ]
               ),

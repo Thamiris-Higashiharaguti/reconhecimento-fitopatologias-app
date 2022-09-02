@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "461092039571",
+    "firebase_url": "https://diagplant-default-rtdb.firebaseio.com",
+    "project_id": "diagplant",
+    "storage_bucket": "diagplant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461092039571:android:135248183b74112106d666",
+        "android_client_info": {
+          "package_name": "com.example.fitopatologia_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461092039571-pmhed3j0lutgeqfrsrog4pj7c7ci7c2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeg-CZidFU0lV6s4hrkTOmvO1OQnHEnuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461092039571-pmhed3j0lutgeqfrsrog4pj7c7ci7c2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
