@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import 'components/alertDialog.dart';
+
 class LoginView extends StatefulWidget {
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -24,7 +26,7 @@ class _LoginViewState extends State<LoginView> {
 
     } on FirebaseAuthException catch (e){
       authException(e);
-      showAlertDialog(context);
+      showAlertDialog(context, 'Atenção', errorMsg);
     }
   }
 
@@ -36,22 +38,6 @@ class _LoginViewState extends State<LoginView> {
     } else {
       errorMsg = 'Entre em contato com o administrador do sistema';
     }
-  }
-
-  showAlertDialog(BuildContext context){ 
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Atenção!'),
-        content: Text(errorMsg),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override

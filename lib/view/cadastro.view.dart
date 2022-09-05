@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+
+import 'components/alertDialog.dart';
 
 class CadastroView extends StatefulWidget {
   @override
@@ -9,9 +13,31 @@ class CadastroView extends StatefulWidget {
 class _CadastroViewState extends State<CadastroView> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   
+  TextEditingController apelidoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  void cadastrar(BuildContext context) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    var usuario = await firestore.collection('usuarios').where('email', isEqualTo: emailController.text).get();
+    if (usuario.docs.isNotEmpty) {
+      showAlertDialog(context, 'Atenção', 'Email já cadastrado');
+      Navigator.of(context).pop();
+    } else {
+      var userAuth = await auth.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+
+      firestore.collection("usuarios").doc(userAuth.user!.uid).set({
+        'uid': userAuth.user!.uid,
+        'apelido': apelidoController.text,
+        'email': emailController.text,
+        'senha': passwordController.text   
+      });
+    }
+  }
 
 
   @override
@@ -33,9 +59,24 @@ class _CadastroViewState extends State<CadastroView> {
                   ),
                   SizedBox(height: 10,),
                   Text(
-                    "Faça login para ter acesso a todas as funcionalidade"
+                    "Faça cadastro para ter acesso a todas as funcionalidade"
                   ),
                   SizedBox(height: 100,),
+                  TextFormField(
+                    controller: apelidoController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "Apelido",
+                      labelStyle: TextStyle(
+                        color: Colors.black38,
+                        fontSize: 20,
+                      )
+                    ),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: "Campo obrigatório"),
+                    ])
+                  ),
+                  SizedBox(height: 10,),
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -79,7 +120,7 @@ class _CadastroViewState extends State<CadastroView> {
                       labelStyle: TextStyle(
                         color: Colors.black38,
                         fontSize: 20,
-                      ),                    
+                      ),
                     ),
                     validator: (value) => MatchValidator(errorText: 'A senha não confere').validateMatch(confirmPasswordController.text, passwordController.text),  
                   ),
