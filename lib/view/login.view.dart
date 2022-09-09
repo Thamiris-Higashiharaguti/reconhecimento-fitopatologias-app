@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
     try {
       var result = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      Navigator.of(context).pushNamed('/cadastro');
+      Navigator.of(context).pushNamed('/home');
     } on FirebaseAuthException catch (e) {
       authException(e);
       showAlertDialog(context, 'Atenção', errorMsg);

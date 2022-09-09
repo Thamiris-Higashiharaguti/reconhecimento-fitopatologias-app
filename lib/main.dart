@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitopatologia_app/view/camera.dart';
 import 'package:fitopatologia_app/view/home.view.dart';
+import 'package:fitopatologia_app/view/resultPage.view.dart';
 import 'package:flutter/material.dart';
 import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
@@ -26,12 +28,16 @@ void main() async {
 class FitoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(), //auth.currentUser == null ? LoginView() : HomeView(),
+      home: auth.currentUser == null
+          ? LoginView()
+          : HomePage(), //auth.currentUser == null ? LoginView() : HomeView(),
       routes: {
         '/login': (context) => LoginView(),
         '/cadastro': (context) => CadastroView(),
+        '/home': (context) => HomePage(),
       },
     );
   }
