@@ -31,9 +31,7 @@ class FitoApp extends StatelessWidget {
     final FirebaseAuth auth = FirebaseAuth.instance;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: auth.currentUser == null
-          ? LoginView()
-          : HomePage(), //auth.currentUser == null ? LoginView() : HomeView(),
+      home: auth.currentUser == null ? LoginView() : HomePage(),
       routes: {
         '/login': (context) => LoginView(),
         '/cadastro': (context) => CadastroView(),

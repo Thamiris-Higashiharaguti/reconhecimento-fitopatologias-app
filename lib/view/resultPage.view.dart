@@ -30,13 +30,10 @@ class _ResultPageState extends State<ResultPage> {
                 children: [
                   Container(
                     child: Background(
-                      child: Container(
-                        child: Text('Saudavel'),
-                      ),
+                      child: Container(),
                     ),
-                    width: size.width * 0.9,
+                    width: size.width,
                     height: size.height,
-                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ],
               )),
@@ -46,24 +43,30 @@ class _ResultPageState extends State<ResultPage> {
                     children: [
                       Container(
                         width: size.width,
-                        height: size.height * 0.75,
+                        height: size.height * 0.85,
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 94, 255, 0),
-                            borderRadius: BorderRadius.circular(35)),
+                            color: Color.fromARGB(255, 185, 255, 144),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30))),
                       ),
                     ],
                   )),
               Positioned(
-                  top: size.height * 0.2,
+                  top: size.height * 0.1,
                   left: size.width * 0.1,
+                  right: size.width * 0.1,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Anexo(arquivo: widget.foto!),
+                      SizedBox(
+                        width: size.width * 0.05,
+                      ),
                       Text(
                         widget.diagnostico!,
                         style: TextStyle(
-                            fontSize: size.height * 0.04,
+                            fontSize: size.height * 0.03,
                             fontWeight: FontWeight.bold),
                       )
                     ],

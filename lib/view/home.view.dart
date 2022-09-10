@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -70,30 +71,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future createAlbum(File imagem) async {
-    List<int> imageBytes = await imagem.readAsBytesSync();
-    //String base64Image = base64Encode(imageBytes);
-    print(imagem.path);
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://8376-34-86-138-182.ngrok.io/imagem'));
-    request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
-    print(response.body);
-    Map valueMap = json.decode(response.body);
-    return valueMap;
-
-    /*
-    
-    var filename = imagem.path.split('/').last;
-    FormData formData = new FormData.fromMap({"imagem": imagem.path});
-    var response = await Dio().post('http://192.168.163.248:4000/imagem',
-        data: formData,
-        options: Options(receiveTimeout: 500000, sendTimeout: 500000));
-    print("base64Image");
-    return response.data;*/
-  }
-
   showPreview(arquivo) async {
     File? arq = await Navigator.push(
       context, // error
@@ -111,6 +88,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void getFileFromGallery() async {
+    final file = await picker.getImage(source: ImageSource.gallery);
+    print(file!.path);
+    Navigator.push(
+      context, // error
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return PreviewPage(teste: File(file.path));
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,10 +113,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SpeedDial(
-        buttonSize: Size(70, 70),
-        spaceBetweenChildren: 20,
+        buttonSize: Size(60, 60),
+        spaceBetweenChildren: 40,
         spacing: 20,
         animatedIcon: AnimatedIcons.menu_close,
+        backgroundColor: Color.fromARGB(255, 0, 95, 3),
         children: [
           SpeedDialChild(
               child: Icon(Icons.camera),
@@ -146,14 +137,8 @@ class _HomePageState extends State<HomePage> {
               child: Icon(Icons.image),
               label: "Galeria",
               onTap: () {
-                //getFileFromGallery();
+                getFileFromGallery();
               }),
-          SpeedDialChild(
-              child: Icon(Icons.cloud),
-              label: "Galeria Nuvem",
-              labelStyle: TextStyle(color: Colors.white),
-              labelBackgroundColor: Color.fromARGB(255, 121, 0, 169),
-              onTap: () {})
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -164,13 +149,27 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
                   IconButton(
                       onPressed: () {}, icon: const Icon(Icons.newspaper)),
+                  SizedBox(
+                    width: 20,
+                  ),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.comment)),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.image)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context, // error
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return HistoryPage();
+                            },
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.image)),
                 ],
               ),
             )),

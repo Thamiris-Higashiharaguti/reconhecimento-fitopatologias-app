@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/main.dart';
@@ -12,8 +13,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 
 class PreviewPage extends StatefulWidget {
-  File? teste;
-  PreviewPage({Key? key, this.teste}) : super(key: key);
+  File teste;
+  PreviewPage({Key? key, required this.teste}) : super(key: key);
 
   @override
   State<PreviewPage> createState() => _PreviewPageState();
@@ -22,19 +23,20 @@ class PreviewPage extends StatefulWidget {
 class _PreviewPageState extends State<PreviewPage>
     with SingleTickerProviderStateMixin {
   final FirebaseStorage storage = FirebaseStorage.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   void createAlbum(File imagem) async {
     List<int> imageBytes = await imagem.readAsBytesSync();
     //String base64Image = base64Encode(imageBytes);
     print(imagem.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://a096-34-125-250-175.ngrok.io/imagem'));
+        'POST', Uri.parse('http://8ec9-35-232-40-38.ngrok.io/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
     Map valueMap = json.decode(response.body);
-    Upload();
+    Upload(valueMap['PrimeiroDiagnostico']);
     Navigator.push(
       context, // error
       MaterialPageRoute(
@@ -44,25 +46,21 @@ class _PreviewPageState extends State<PreviewPage>
         },
       ),
     );
-
-    /*
-    
-    var filename = imagem.path.split('/').last;
-    FormData formData = new FormData.fromMap({"imagem": imagem.path});
-    var response = await Dio().post('http://192.168.163.248:4000/imagem',
-        data: formData,
-        options: Options(receiveTimeout: 500000, sendTimeout: 500000));
-    print("base64Image");
-    return response.data;*/
   }
 
-  Future<UploadTask> Upload() async {
+  void Upload(String diagnostico) async {
     try {
       DateTime date = DateTime.now();
       String ref = auth.currentUser!.uid + '/img-${date.toString()}.jpg';
-      var response = storage.ref(ref).putFile(widget.teste!);
-
-      return response;
+      var response = await storage.ref(ref).putFile(widget.teste!);
+      var refs = (await storage.ref(auth.currentUser!.uid).listAll()).items;
+      var link = await refs.last.getDownloadURL();
+      db.collection("diagnosticos").add({
+        "data": Timestamp.fromDate(date.add(Duration(hours: 3))),
+        "uid": auth.currentUser!.uid,
+        "link": link,
+        "diagnostico": diagnostico,
+      });
     } on FirebaseException catch (e) {
       throw Exception('Erro no upload: ${e.code}');
     }
@@ -92,7 +90,7 @@ class _PreviewPageState extends State<PreviewPage>
             children: [
               Positioned.fill(
                   child: Image.file(
-                widget.teste!,
+                widget.teste,
                 fit: BoxFit.cover,
               )),
               if (uploading != true) ...[
