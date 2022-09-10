@@ -29,7 +29,8 @@ class _CadastroViewState extends State<CadastroView> {
         .get();
     if (usuario.docs.isNotEmpty) {
       showAlertDialog(context, 'Atenção', 'Email já cadastrado');
-      Navigator.of(context).pop();
+      await Future.delayed(const Duration(seconds: 4), (){});
+      Navigator.pushNamed(context, '/login');
     } else {
       var userAuth = await auth.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
@@ -152,8 +153,11 @@ class _CadastroViewState extends State<CadastroView> {
                               horizontal: size.width * 0.1, vertical: 20),
                           textStyle: TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold)),
-                      onPressed: () =>
-                          {if (formkey.currentState!.validate()) {}},
+                      onPressed: () => {
+                        if (formkey.currentState!.validate()) {
+                          cadastrar(context),
+                        }
+                      },
                     ),
                   ]),
                 ),
