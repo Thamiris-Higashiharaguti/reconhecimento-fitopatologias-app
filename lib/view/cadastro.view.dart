@@ -52,112 +52,106 @@ class _CadastroViewState extends State<CadastroView> {
         body: Background(
           child: ListView(
             shrinkWrap: false,
-            children: <Widget>[
+            children: [
               Container(
-                padding: EdgeInsets.fromLTRB(40, 60, 40, 0),
+                padding: EdgeInsets.fromLTRB(40, size.height * 0.2, 40, 0),
                 child: Form(
                   key: formkey,
                   child: ListView(shrinkWrap: true, children: [
-                    Text(
-                      "Cadastro",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text("Cadastro", style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
                     ),
-                    SizedBox(
-                      height: 10,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
+                      child: Text("Preencha os campos para se registrar", style: TextStyle(fontSize: size.height * 0.02),),
                     ),
-                    Text(
-                        "Faça cadastro para ter acesso a todas as funcionalidade"),
-                    SizedBox(
-                      height: 100,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                          controller: apelidoController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              labelText: "Apelido",
+                              labelStyle: TextStyle(
+                                color: Colors.black38,
+                                fontSize: size.height * 0.03,
+                              )),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                          ])),
                     ),
-                    TextFormField(
-                        controller: apelidoController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            labelText: "Apelido",
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: "E-mail",
+                              labelStyle: TextStyle(
+                                color: Colors.black38,
+                                fontSize: size.height * 0.03,
+                              )),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                            EmailValidator(errorText: "Email inválido"),
+                          ])),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                          controller: passwordController,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Senha",
                             labelStyle: TextStyle(
                               color: Colors.black38,
-                              fontSize: 20,
-                            )),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                        ])),
-                    SizedBox(
-                      height: 10,
+                              fontSize: size.height * 0.03,
+                            ),
+                          ),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                            MinLengthValidator(6,
+                                errorText: "A senha deve conter no mínimo 6 caracteres"),
+                            PatternValidator(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
+                                errorText: 'A senha deve conter números, letras maiúsculas e minúsculas')
+                          ])),
                     ),
-                    TextFormField(
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            labelText: "E-mail",
-                            labelStyle: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 20,
-                            )),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                          EmailValidator(errorText: "Email inválido"),
-                        ])),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                        controller: passwordController,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                        controller: confirmPasswordController,
                         keyboardType: TextInputType.text,
                         obscureText: true,
                         decoration: InputDecoration(
-                          labelText: "Senha",
+                          labelText: "Confirme a senha",
                           labelStyle: TextStyle(
                             color: Colors.black38,
-                            fontSize: 20,
+                            fontSize: size.height * 0.03,
                           ),
                         ),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                          MinLengthValidator(6,
-                              errorText:
-                                  "A senha deve conter no mínimo 6 caracteres"),
-                          PatternValidator(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
-                              errorText:
-                                  'A senha deve conter números, letras maiúsculas e minúsculas')
-                        ])),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: confirmPasswordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Confirme a senha",
-                        labelStyle: TextStyle(
-                          color: Colors.black38,
-                          fontSize: 20,
-                        ),
+                        validator: (value) =>
+                            MatchValidator(errorText: 'A senha não confere')
+                                .validateMatch(confirmPasswordController.text,
+                                    passwordController.text),
                       ),
-                      validator: (value) =>
-                          MatchValidator(errorText: 'A senha não confere')
-                              .validateMatch(confirmPasswordController.text,
-                                  passwordController.text),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ElevatedButton(
-                      child: Text("Cadastrar"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF3b8132),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.1, vertical: 20),
-                          textStyle: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                      onPressed: () => {
-                        if (formkey.currentState!.validate()) {
-                          cadastrar(context),
-                        }
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ElevatedButton(
+                        child: Text("Cadastrar"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3b8132),
+                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                            textStyle: TextStyle(
+                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                        onPressed: () => {
+                          if (formkey.currentState!.validate()) {
+                            cadastrar(context),
+                          }
+                        },
+                      ),
                     ),
                   ]),
                 ),
