@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 
+import 'view/home.view copy.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -35,6 +37,7 @@ class FitoApp extends StatelessWidget {
         '/login': (context) => LoginView(),
         '/cadastro': (context) => CadastroView(),
         '/home': (context) => HomePage(),
+        '/home2': (context) => HomePage2(),
       },
     );
   }
