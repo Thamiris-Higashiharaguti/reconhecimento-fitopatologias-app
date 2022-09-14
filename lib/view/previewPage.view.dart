@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/main.dart';
+import 'package:fitopatologia_app/model/diagnostico.model.dart';
 import 'package:fitopatologia_app/view/home.view.dart';
 import 'package:fitopatologia_app/view/resultPage.view.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,27 +26,42 @@ class _PreviewPageState extends State<PreviewPage>
   final FirebaseStorage storage = FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   void createAlbum(File imagem) async {
     List<int> imageBytes = await imagem.readAsBytesSync();
     //String base64Image = base64Encode(imageBytes);
     print(imagem.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://8ec9-35-232-40-38.ngrok.io/imagem'));
+        'POST', Uri.parse('http://fa91-34-73-91-207.ngrok.io/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
     Map valueMap = json.decode(response.body);
-    Upload(valueMap['PrimeiroDiagnostico']);
-    Navigator.push(
-      context, // error
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return ResultPage(
-              foto: imagem, diagnostico: valueMap['PrimeiroDiagnostico']);
-        },
-      ),
-    );
+    print(valueMap['PrimeiroDiagnostico']['doenca']);
+    Upload(valueMap['PrimeiroDiagnostico']['doenca']);
+    if (mounted) {
+      Navigator.push(
+        context, // error
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return ResultPage(
+              foto: imagem,
+              modelPrimeiroDiag: DiagnosticoModel(
+                  valueMap['PrimeiroDiagnostico']['doenca'],
+                  valueMap['PrimeiroDiagnostico']['descricao'],
+                  double.parse(
+                      valueMap['PrimeiroDiagnostico']['probabilidade'])),
+              modelSegundoDiag: DiagnosticoModel(
+                  valueMap['SegundoDiagnostico']['doenca'],
+                  valueMap['SegundoDiagnostico']['descricao'],
+                  double.parse(
+                      valueMap['SegundoDiagnostico']['probabilidade'])),
+            );
+          },
+        ),
+      );
+    }
   }
 
   void Upload(String diagnostico) async {
