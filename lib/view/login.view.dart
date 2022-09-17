@@ -41,6 +41,10 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
+  void cadastrar(BuildContext context) {
+    Navigator.pushNamed(context, '/cadastro');
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -55,86 +59,95 @@ class _LoginViewState extends State<LoginView> {
                   //autovalidateMode: AutovalidateMode.disabled,
                   key: formkey,
                   child: ListView(shrinkWrap: true, children: [
-                    Text(
-                      "Sign in",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text("Login", style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
                     ),
-                    SizedBox(
-                      height: 10,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
+                      child: Text("Faça login para ter acesso a todas as funcionalidade", style: TextStyle(fontSize: size.height * 0.02)),
                     ),
-                    Text(
-                        "Faça login para ter acesso a todas as funcionalidade"),
-                    SizedBox(
-                      height: 100,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: "E-mail",
+                              labelStyle: TextStyle(
+                                color: Colors.black38,
+                                fontSize: size.height * 0.03,
+                              )),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                            EmailValidator(errorText: "Email inválido"),
+                          ])),
                     ),
-                    TextFormField(
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            labelText: "E-mail",
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextFormField(
+                          controller: passwordController,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Senha",
                             labelStyle: TextStyle(
                               color: Colors.black38,
-                              fontSize: 20,
-                            )),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                          EmailValidator(errorText: "Email inválido"),
-                        ])),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                        controller: passwordController,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Senha",
-                          labelStyle: TextStyle(
-                            color: Colors.black38,
-                            fontSize: 20,
+                              fontSize: size.height * 0.03,
+                            ),
                           ),
-                        ),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                          MinLengthValidator(6,
-                              errorText:
-                                  "A senha deve conter no mínimo 6 caracteres"),
-                          PatternValidator(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
-                              errorText:
-                                  'A senha deve conter números, letras maiúsculas e minúsculas')
-                        ])),
-                    SizedBox(
-                      height: 10,
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                            MinLengthValidator(6,
+                                errorText:
+                                    "A senha deve conter no mínimo 6 caracteres"),
+                            PatternValidator(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
+                                errorText:
+                                    'A senha deve conter números, letras maiúsculas e minúsculas')
+                          ])
+                      ),
                     ),
-                    ElevatedButton(
-                      child: Text("Login"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF3b8132),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.1, vertical: 20),
-                          textStyle: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold)),
-                      onPressed: () => {
-                        if (formkey.currentState!.validate())
-                          {
-                            login(context),
-                          }
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end, 
+                      children: [ 
+                        GestureDetector(
+                          child: Text("Esqueci minha senha", style: TextStyle(color: Colors.blue, fontSize: size.height * 0.015)),
+                          onTap: () {},
+                        )
+                      ]
                     ),
-                    SizedBox(
-                      height: 10,
+                    Padding(
+                      padding: const EdgeInsets.only(top:10),
+                      child: ElevatedButton(
+                        child: Text("Entrar"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3b8132),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1, vertical: 20),
+                            textStyle: TextStyle(
+                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                        onPressed: () => {
+                          if (formkey.currentState!.validate())
+                            {
+                              login(context),
+                            }
+                        },
+                      ),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text("Não tem cadastro? "),
-                      GestureDetector(
-                        child: Text("Cadastre-se",
-                            style: TextStyle(color: Colors.blue)),
-                        onTap: () =>
-                            (Navigator.pushNamed(context, '/cadastro')),
-                      )
-                    ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ElevatedButton(
+                        child: Text("Criar conta"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3b8132),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1, vertical: 20),
+                            textStyle: TextStyle(
+                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                        onPressed: () => cadastrar(context),
+                      ),
+                    ),
                   ]),
                 ),
               ),

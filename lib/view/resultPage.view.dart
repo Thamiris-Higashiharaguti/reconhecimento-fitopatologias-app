@@ -31,6 +31,7 @@ class _ResultPageState extends State<ResultPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadImages(widget.modelPrimeiroDiag.doenca!);
   }
 
   loadImages(String caminho) async {
@@ -115,27 +116,80 @@ class _ResultPageState extends State<ResultPage> {
                                 BorderRadius.all(Radius.circular(20))),
                         child: Column(
                           children: [
-                            Container(
-                              width: size.width * 0.9,
-                              height: size.height * 0.1,
-                              child: ListView.builder(
-                                shrinkWrap: false,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 3,
-                                itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                          topLeft: Radius.circular(5),
-                                          topRight: Radius.circular(5)),
-                                      child: Image.network(
-                                        "https://firebasestorage.googleapis.com/v0/b/diagplant.appspot.com/o/example%2Fcancro%2Fcancro.jpeg?alt=media&token=7012d889-a846-41ea-8a72-47ca7bc461ee",
-                                        fit: BoxFit.cover,
-                                        height: size.height * 0.05,
-                                        width: size.width * 0.2,
-                                      ));
-                                },
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      widget.modelPrimeiroDiag.doenca!,
+                                      style: TextStyle(
+                                          fontSize: size.height * 0.03,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.02,
+                                    ),
+                                    Container(
+                                      width: size.width * 1,
+                                      height: size.height * 0.2,
+                                      child: ListView.separated(
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return SizedBox(
+                                              width: size.width * 0.048);
+                                        },
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        primary: true,
+                                        itemCount: (arquivos.length),
+                                        itemBuilder: (context, index) {
+                                          print(arquivos);
+                                          return ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(5),
+                                                  bottomRight:
+                                                      Radius.circular(5),
+                                                  topLeft: Radius.circular(5),
+                                                  topRight: Radius.circular(5)),
+                                              child: Image.network(
+                                                arquivos[index],
+                                                fit: BoxFit.cover,
+                                                height: size.height * 0.03,
+                                                width: size.width * 0.25,
+                                              ));
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.01,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ButtonStyle(
+                                        minimumSize:
+                                            MaterialStateProperty.all<Size>(
+                                                Size(size.width * 0.9,
+                                                    size.height * 0.05)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Ler mais',
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.02,
+                                          ),
+                                          Icon(
+                                              Icons.arrow_circle_right_outlined)
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],

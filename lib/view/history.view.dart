@@ -31,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage> {
         resizeToAvoidBottomInset: false,
         body: Background(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: firestore
                   .collection('diagnosticos')
@@ -57,23 +57,13 @@ class _HistoryPageState extends State<HistoryPage> {
                       } else {
                         var date = DateFormat("dd/MM/yyyy").format(
                             snapshot.data!.docs[index].data()['data'].toDate());
-                        return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PreviewPageNetwork(
-                                        photoLink: snapshot.data!.docs[index]
-                                            .data()['link'])),
-                              );
-                            },
-                            child: HistoryItem(
+                        return  HistoryItem(
                               data: date,
                               diag: snapshot.data!.docs[index]
                                   .data()['diagnostico'],
                               photoLink:
                                   snapshot.data!.docs[index].data()['link'],
-                            ));
+                            );
                       }
                     });
               },

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 
+import 'view/home.view.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -31,11 +33,11 @@ class FitoApp extends StatelessWidget {
     final FirebaseAuth auth = FirebaseAuth.instance;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: auth.currentUser == null ? LoginView() : HomePage(),
+      home: auth.currentUser == null ? LoginView() : HomePage2(),
       routes: {
         '/login': (context) => LoginView(),
         '/cadastro': (context) => CadastroView(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => HomePage2(),
       },
     );
   }

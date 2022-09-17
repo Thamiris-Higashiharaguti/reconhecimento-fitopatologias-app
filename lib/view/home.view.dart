@@ -2,7 +2,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
+import 'package:fitopatologia_app/view/login.view.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -14,15 +16,27 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage2 extends StatefulWidget {
   File? teste;
-  HomePage({Key? key, this.teste}) : super(key: key);
+  HomePage2({Key? key, this.teste}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage2> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage2> {
+  int currentTab = 0;
+
+  final List<Widget> screens = [
+    LoginView(),
+    CadastroView(),
+    LoginView(),
+    HistoryPage()
+  ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
+  Widget currentScreen = LoginView();
+
   late File _image;
   late List _results;
   final FirebaseStorage storage = FirebaseStorage.instance;
@@ -104,12 +118,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: /*Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [],
         ),
+      ),*/
+          PageStorage(
+        child: currentScreen,
+        bucket: bucket,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SpeedDial(
@@ -151,25 +169,45 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.newspaper)),
+                    icon: const Icon(Icons.person),
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = LoginView();
+                        currentTab = 0;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.newspaper),
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = CadastroView();
+                        currentTab = 1;
+                      });
+                    },
+                  ),
                   SizedBox(
                     width: 20,
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.comment)),
                   IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context, // error
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return HistoryPage();
-                            },
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.image)),
+                    icon: const Icon(Icons.comment),
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = LoginView();
+                        currentTab = 2;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.image),
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = HistoryPage();
+                        currentTab = 3;
+                      });
+                    },
+                  ),
                 ],
               ),
             )),

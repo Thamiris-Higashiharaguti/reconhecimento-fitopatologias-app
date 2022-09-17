@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -31,8 +32,8 @@ class _PreviewPageNetworkState extends State<PreviewPageNetwork> {
               child: Stack(
             children: [
               Positioned.fill(
-                  child: Image.network(
-                widget.photoLink,
+                  child: CachedNetworkImage(
+                imageUrl: widget.photoLink,
                 fit: BoxFit.cover,
               )),
               Row(

@@ -32,7 +32,7 @@ class _PreviewPageState extends State<PreviewPage>
     //String base64Image = base64Encode(imageBytes);
     print(imagem.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://fa91-34-73-91-207.ngrok.io/imagem'));
+        'POST', Uri.parse('http://f99d-34-86-239-11.ngrok.io/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
