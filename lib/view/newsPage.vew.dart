@@ -19,7 +19,7 @@ class _NewsPageState extends State<NewsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    retorno = [];
+    retorno = null;
     getArticle();
   }
 
@@ -44,6 +44,13 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if (retorno == null) {
+      return Scaffold(
+        body: Background(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       body: Background(
           child: Padding(

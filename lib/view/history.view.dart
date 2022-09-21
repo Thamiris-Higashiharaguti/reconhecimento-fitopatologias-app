@@ -29,6 +29,9 @@ class _HistoryPageState extends State<HistoryPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text('Histórico'),
+        ),
         body: Background(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
