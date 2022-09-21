@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = LoginView();
+  Widget currentScreen = NewsPage();
 
   late File _image;
   late List _results;
