@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
+import 'package:fitopatologia_app/view/newsPage.vew.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage2> {
 
   final List<Widget> screens = [
     LoginView(),
-    CadastroView(),
+    NewsPage(),
     LoginView(),
     HistoryPage()
   ];
@@ -181,8 +182,12 @@ class _HomePageState extends State<HomePage2> {
                   IconButton(
                     icon: const Icon(Icons.newspaper),
                     onPressed: () {
+                      // setState(() {
+                      //   currentScreen = CadastroView();
+                      //   currentTab = 1;
+                      // });
                       setState(() {
-                        currentScreen = CadastroView();
+                        currentScreen = NewsPage();
                         currentTab = 1;
                       });
                     },

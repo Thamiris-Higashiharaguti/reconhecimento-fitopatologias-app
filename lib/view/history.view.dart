@@ -36,14 +36,40 @@ class _HistoryPageState extends State<HistoryPage> {
               stream: firestore
                   .collection('diagnosticos')
                   .where('uid', isEqualTo: auth.currentUser!.uid)
+                  //.orderBy('data', descending: false)
                   //.orderBy('dataUltimaMensagem', descending: true)
                   .snapshots(),
               builder: (_, snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Stack();
                 }
                 if (snapshot.hasError) {
                   return Text("Erro");
+                }
+                if (snapshot.data!.docs.length == 0) {
+                  print(snapshot);
+                  return Stack(
+                    children: [
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.hide_image_outlined,
+                              size: 150,
+                              color: Color.fromARGB(255, 184, 184, 184),
+                            ),
+                            Text(
+                              "Não foi possível acessar nenhuma imagem",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 99, 98, 98),
+                                  fontSize: size.height * 0.02),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  );
                 }
 
                 return ListView.separated(
@@ -57,13 +83,12 @@ class _HistoryPageState extends State<HistoryPage> {
                       } else {
                         var date = DateFormat("dd/MM/yyyy").format(
                             snapshot.data!.docs[index].data()['data'].toDate());
-                        return  HistoryItem(
-                              data: date,
-                              diag: snapshot.data!.docs[index]
-                                  .data()['diagnostico'],
-                              photoLink:
-                                  snapshot.data!.docs[index].data()['link'],
-                            );
+                        return HistoryItem(
+                          data: date,
+                          diag:
+                              snapshot.data!.docs[index].data()['diagnostico'],
+                          photoLink: snapshot.data!.docs[index].data()['link'],
+                        );
                       }
                     });
               },

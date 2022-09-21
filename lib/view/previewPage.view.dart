@@ -28,17 +28,12 @@ class _PreviewPageState extends State<PreviewPage>
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   void createAlbum(File imagem) async {
-    List<int> imageBytes = await imagem.readAsBytesSync();
-    //String base64Image = base64Encode(imageBytes);
-    print(imagem.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://f99d-34-86-239-11.ngrok.io/imagem'));
+        'POST', Uri.parse('http://5687-34-75-219-67.ngrok.io/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    print(response.body);
     Map valueMap = json.decode(response.body);
-    print(valueMap['PrimeiroDiagnostico']['doenca']);
     Upload(valueMap['PrimeiroDiagnostico']['doenca']);
     if (mounted) {
       Navigator.push(

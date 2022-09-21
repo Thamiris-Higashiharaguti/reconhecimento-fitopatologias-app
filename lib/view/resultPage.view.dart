@@ -3,12 +3,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/model/diagnostico.model.dart';
 import 'package:fitopatologia_app/view/components/anexo.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
+import 'package:fitopatologia_app/view/components/diagInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ResultPage extends StatefulWidget {
-  File? foto;
+  File foto;
   final DiagnosticoModel modelPrimeiroDiag;
   final DiagnosticoModel modelSegundoDiag;
   ResultPage(
@@ -26,18 +27,25 @@ class _ResultPageState extends State<ResultPage> {
   double total = 0;
   List<Reference> refs = [];
   List<String> arquivos = [];
+  List<Reference> refs2 = [];
+  List<String> arquivos2 = [];
   bool loading = true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadImages(widget.modelPrimeiroDiag.doenca!);
+    loadImages(
+        widget.modelPrimeiroDiag.doenca!, widget.modelSegundoDiag.doenca!);
   }
 
-  loadImages(String caminho) async {
-    refs = (await storage.ref('example/${caminho}').listAll()).items;
+  loadImages(String caminho1, String caminho2) async {
+    refs = (await storage.ref('example/${caminho1}').listAll()).items;
     for (var ref in refs) {
       arquivos.add(await ref.getDownloadURL());
+    }
+    refs2 = (await storage.ref('example/${caminho2}').listAll()).items;
+    for (var ref in refs2) {
+      arquivos2.add(await ref.getDownloadURL());
     }
     setState(() {
       loading = false;
@@ -49,7 +57,7 @@ class _ResultPageState extends State<ResultPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
-        shrinkWrap: true,
+        shrinkWrap: false,
         children: [
           Stack(
             clipBehavior: Clip.none,
@@ -62,143 +70,58 @@ class _ResultPageState extends State<ResultPage> {
                       child: Container(),
                     ),
                     width: size.width,
-                    height: size.height,
+                    height: size.height * 0.26,
                   ),
                 ],
               )),
               Positioned(
-                  bottom: 0,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: size.width,
-                        height: size.height * 0.85,
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(188, 237, 253, 227),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30))),
-                      ),
-                    ],
-                  )),
-              Positioned(
-                  top: size.height * 0.1,
+                  top: size.height * 0.05,
                   left: size.width * 0.05,
                   right: size.width * 0.05,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Anexo(arquivo: widget.foto!),
+                      Anexo(arquivo: widget.foto),
                       SizedBox(
                         width: size.width * 0.05,
                       ),
-                      Text(
-                        widget.modelPrimeiroDiag.doenca!,
-                        style: TextStyle(
-                            fontSize: size.height * 0.03,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  )),
-              Positioned(
-                  top: size.height * 0.35,
-                  left: size.width * 0.05,
-                  right: size.width * 0.05,
-                  child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: size.width * 0.9,
-                        height: size.height * 0.35,
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      widget.modelPrimeiroDiag.doenca!,
-                                      style: TextStyle(
-                                          fontSize: size.height * 0.03,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.02,
-                                    ),
-                                    Container(
-                                      width: size.width * 1,
-                                      height: size.height * 0.2,
-                                      child: ListView.separated(
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return SizedBox(
-                                              width: size.width * 0.048);
-                                        },
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        primary: true,
-                                        itemCount: (arquivos.length),
-                                        itemBuilder: (context, index) {
-                                          print(arquivos);
-                                          return ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5)),
-                                              child: Image.network(
-                                                arquivos[index],
-                                                fit: BoxFit.cover,
-                                                height: size.height * 0.03,
-                                                width: size.width * 0.25,
-                                              ));
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.01,
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      style: ButtonStyle(
-                                        minimumSize:
-                                            MaterialStateProperty.all<Size>(
-                                                Size(size.width * 0.9,
-                                                    size.height * 0.05)),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Ler mais',
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.02,
-                                          ),
-                                          Icon(
-                                              Icons.arrow_circle_right_outlined)
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            'Diagnostico: ',
+                            style: TextStyle(
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          Text(
+                            widget.modelPrimeiroDiag.doenca!,
+                            style: TextStyle(
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       )
                     ],
                   )),
             ],
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DiagInfo(
+                  arquivos: arquivos,
+                  modelDiag: widget.modelPrimeiroDiag,
+                  photoLink: widget.foto),
+              DiagInfo(
+                  arquivos: arquivos2,
+                  modelDiag: widget.modelSegundoDiag,
+                  photoLink: widget.foto),
+            ],
+          )
         ],
       ),
     );
