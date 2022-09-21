@@ -6,18 +6,37 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 import 'components/alertDialog.dart';
 
-class CadastroView extends StatefulWidget {
+class ProfileEditView extends StatefulWidget {
   @override
-  State<CadastroView> createState() => _CadastroViewState();
+  State<ProfileEditView> createState() => _ProfileEditViewState();
 }
 
-class _CadastroViewState extends State<CadastroView> {
+class _ProfileEditViewState extends State<ProfileEditView> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   TextEditingController apelidoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  var userUid = '';
+
+  Future carregaUsuario() async {
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    var user = auth.currentUser!;
+    userUid = user.uid;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    var usuario = await firestore.collection('usuarios').doc(userUid).get();
+
+    apelidoController.text = usuario['apelido'];
+    emailController.text = usuario['email'];
+    passwordController.text = usuario['senha'];
+
+    return userUid;
+  }
 
   void cadastrar(BuildContext context) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -61,10 +80,6 @@ class _CadastroViewState extends State<CadastroView> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text("Cadastro", style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
-                      child: Text("Preencha os campos para se registrar", style: TextStyle(fontSize: size.height * 0.02),),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -116,7 +131,8 @@ class _CadastroViewState extends State<CadastroView> {
                                 errorText: "A senha deve conter no mínimo 6 caracteres"),
                             PatternValidator(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
                                 errorText: 'A senha deve conter números, letras maiúsculas e minúsculas')
-                          ])),
+                          ]),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -140,7 +156,23 @@ class _CadastroViewState extends State<CadastroView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: ElevatedButton(
-                        child: Text("Cadastrar"),
+                        child: Text("Salvar"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3b8132),
+                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                            textStyle: TextStyle(
+                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                        onPressed: () => {
+                          if (formkey.currentState!.validate()) {
+                            cadastrar(context),
+                          }
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ElevatedButton(
+                        child: Text("Sair"),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xFF3b8132),
                             padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
@@ -158,6 +190,11 @@ class _CadastroViewState extends State<CadastroView> {
               ),
             ],
           ),
-        ));
+        )
+      );
+  }
+  void initState() {
+    super.initState();
+    final user = carregaUsuario();
   }
 }

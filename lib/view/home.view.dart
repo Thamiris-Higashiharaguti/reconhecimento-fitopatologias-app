@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fitopatologia_app/view/cadastro.view.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 import 'package:fitopatologia_app/view/newsPage.vew.dart';
@@ -17,21 +16,19 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-class HomePage2 extends StatefulWidget {
+class HomePage extends StatefulWidget {
   File? teste;
-  HomePage2({Key? key, this.teste}) : super(key: key);
+  HomePage({Key? key, this.teste}) : super(key: key);
 
   @override
-  State<HomePage2> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage2> {
+class _HomePageState extends State<HomePage> {
   int currentTab = 0;
 
   final List<Widget> screens = [
-    LoginView(),
     NewsPage(),
-    LoginView(),
     HistoryPage()
   ];
 
@@ -126,17 +123,18 @@ class _HomePageState extends State<HomePage2> {
           children: [],
         ),
       ),*/
-          PageStorage(
+      PageStorage(
         child: currentScreen,
         bucket: bucket,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SpeedDial(
         buttonSize: Size(60, 60),
-        spaceBetweenChildren: 40,
-        spacing: 20,
+        spaceBetweenChildren: 20,
+        spacing: 10,
         animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromARGB(255, 0, 95, 3),
+        //child: Icon(Icons.scanner),
+        backgroundColor: Color(0xFF3b8132),
         children: [
           SpeedDialChild(
               child: Icon(Icons.camera),
@@ -162,33 +160,20 @@ class _HomePageState extends State<HomePage2> {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: Color.fromARGB(255, 0, 95, 3),
+        color: Color(0xFF3b8132),
         child: IconTheme(
             data: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.person),
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = LoginView();
-                        currentTab = 0;
-                      });
-                    },
-                  ),
                   IconButton(
                     icon: const Icon(Icons.newspaper),
                     onPressed: () {
-                      // setState(() {
-                      //   currentScreen = CadastroView();
-                      //   currentTab = 1;
-                      // });
                       setState(() {
                         currentScreen = NewsPage();
-                        currentTab = 1;
+                        currentTab = 0;
                       });
                     },
                   ),
@@ -196,20 +181,11 @@ class _HomePageState extends State<HomePage2> {
                     width: 20,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.comment),
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = LoginView();
-                        currentTab = 2;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.image),
+                    icon: const Icon(Icons.history),
                     onPressed: () {
                       setState(() {
                         currentScreen = HistoryPage();
-                        currentTab = 3;
+                        currentTab = 1;
                       });
                     },
                   ),

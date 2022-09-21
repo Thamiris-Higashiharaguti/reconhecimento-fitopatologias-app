@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class DiagnosticoModel {
   String? doenca;
   String? descricao;
