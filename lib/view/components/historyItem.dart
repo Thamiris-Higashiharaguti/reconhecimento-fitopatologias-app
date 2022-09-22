@@ -26,7 +26,7 @@ class HistoryItem extends StatelessWidget {
         height: size.height * 0.12,
         width: size.width * 0.2,
         decoration: BoxDecoration(
-          color: Color.fromARGB(151, 29, 99, 1),
+          color: Color.fromARGB(96, 29, 99, 1),
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
@@ -94,7 +94,7 @@ class HistoryItem extends StatelessWidget {
                   children: [
                     Text("Diagnostico: " + diag.toString(),
                         style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
+                            color: Color.fromARGB(255, 236, 236, 236),
                             fontSize: size.width * 0.05,
                             fontWeight: FontWeight.bold)),
                     SizedBox(
@@ -102,7 +102,7 @@ class HistoryItem extends StatelessWidget {
                     ),
                     Text("Data: " + data.toString(),
                         style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
+                            color: Color.fromARGB(255, 236, 236, 236),
                             fontSize: size.width * 0.05,
                             fontWeight: FontWeight.bold))
                   ],

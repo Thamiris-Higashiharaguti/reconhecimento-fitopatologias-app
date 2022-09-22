@@ -46,12 +46,24 @@ class _NewsPageState extends State<NewsPage> {
     Size size = MediaQuery.of(context).size;
     if (retorno == null) {
       return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Center(child: Text('Notícias')),
+          backgroundColor: Color.fromARGB(202, 59, 129, 50),
+          elevation: 20,
+        ),
         body: Background(
           child: CircularProgressIndicator(),
         ),
       );
     }
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Center(child: Text('Notícias')),
+        backgroundColor: Color.fromARGB(202, 59, 129, 50),
+        elevation: 20,
+      ),
       body: Background(
           child: Padding(
               padding: EdgeInsets.fromLTRB(30, 10, 30, 10),

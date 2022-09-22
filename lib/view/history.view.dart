@@ -30,11 +30,19 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Histórico'),
+          automaticallyImplyLeading: false,
+          title: Center(
+              child: Text('Histórico',
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: size.width * 0.05,
+                      fontWeight: FontWeight.bold))),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: Background(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
+            padding: const EdgeInsets.fromLTRB(10, 1, 10, 4),
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: firestore
                   .collection('diagnosticos')
