@@ -42,7 +42,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
     return userUid;
   }
 
-  void cadastrar(BuildContext context) async {
+  void saveUpdate(BuildContext context) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -50,21 +50,26 @@ class _ProfileEditViewState extends State<ProfileEditView> {
         .collection('usuarios')
         .where('email', isEqualTo: emailController.text)
         .get();
-    if (usuario.docs.isNotEmpty) {
-      showAlertDialog(context, 'Atenção', 'Email já cadastrado');
-      await Future.delayed(const Duration(seconds: 4), (){});
-      Navigator.pushNamed(context, '/login');
-    } else {
+        
+    if (usuario.docs.isEmpty) {
       var userAuth = await auth.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
-      firestore.collection("usuarios").doc(userAuth.user!.uid).set({
+      firestore.collection("usuarios").doc(userAuth.user!.uid).update({
         'uid': userAuth.user!.uid,
         'apelido': apelidoController.text,
         'email': emailController.text,
         'senha': passwordController.text
       });
-    }
+      
+    } /*else {
+      if( == userUid)
+      showAlertDialog(context, 'Atenção', 'Email já cadastrado');
+    }*/
+  }
+
+  void logout(BuildContext context){
+    
   }
 
   @override
@@ -77,17 +82,28 @@ class _ProfileEditViewState extends State<ProfileEditView> {
           child: ListView(
             shrinkWrap: false,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back), 
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.edit), 
-                    onPressed: () {},
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios), 
+                      onPressed: () {},
+                    ),
+                    Visibility(
+                      visible: !edicao,
+                      child: IconButton(
+                        icon: Icon(Icons.edit), 
+                        onPressed: () {
+                          setState(() {
+                            edicao = true;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(40, size.height * 0.2, 40, 0),
@@ -189,7 +205,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                                   fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
                           onPressed: () => {
                             if (formkey.currentState!.validate()) {
-                              cadastrar(context),
+                              saveUpdate(context),
                             }
                           },
                         ),
@@ -207,7 +223,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                               textStyle: TextStyle(
                                   fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
                           onPressed: () => {
-                            
+                            logout(context),
                           },
                         ),
                       ),
