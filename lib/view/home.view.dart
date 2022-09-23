@@ -27,10 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentTab = 0;
 
-  final List<Widget> screens = [
-    NewsPage(),
-    HistoryPage()
-  ];
+  final List<Widget> screens = [NewsPage(), HistoryPage()];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = NewsPage();
@@ -44,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   final picker = ImagePicker();
   bool uploading = false;
   double total = 0;
+  bool controlador = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -123,7 +121,7 @@ class _HomePageState extends State<HomePage> {
           children: [],
         ),
       ),*/
-      PageStorage(
+          PageStorage(
         child: currentScreen,
         bucket: bucket,
       ),
@@ -132,8 +130,7 @@ class _HomePageState extends State<HomePage> {
         buttonSize: Size(60, 60),
         spaceBetweenChildren: 20,
         spacing: 10,
-        animatedIcon: AnimatedIcons.menu_close,
-        //child: Icon(Icons.scanner),
+        child: Icon(Icons.add_a_photo),
         backgroundColor: Color(0xFF3b8132),
         children: [
           SpeedDialChild(

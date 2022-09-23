@@ -28,81 +28,101 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(
-              child: Text('Histórico',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: size.width * 0.05,
-                      fontWeight: FontWeight.bold))),
-          backgroundColor: Colors.transparent,
           elevation: 0,
+          toolbarHeight: 0,
+          backgroundColor: Color.fromARGB(68, 76, 175, 79),
         ),
+        resizeToAvoidBottomInset: false,
         body: Background(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 1, 10, 4),
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: firestore
-                  .collection('diagnosticos')
-                  .where('uid', isEqualTo: auth.currentUser!.uid)
-                  //.orderBy('data', descending: false)
-                  //.orderBy('dataUltimaMensagem', descending: true)
-                  .snapshots(),
-              builder: (_, snapshot) {
-                if (!snapshot.hasData) {
-                  return Stack();
-                }
-                if (snapshot.hasError) {
-                  return Text("Erro");
-                }
-                if (snapshot.data!.docs.length == 0) {
-                  print(snapshot);
-                  return Stack(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.hide_image_outlined,
-                              size: 150,
-                              color: Color.fromARGB(255, 184, 184, 184),
-                            ),
-                            Text(
-                              "Não foi possível acessar nenhuma imagem",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 99, 98, 98),
-                                  fontSize: size.height * 0.02),
-                            )
-                          ],
-                        ),
+                      Text(
+                        "Histórico",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
                       )
                     ],
-                  );
-                }
-
-                return ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (_, index) {
-                      if (snapshot.data!.docs[index].data()['id'] ==
-                          auth.currentUser!.uid) {
-                        return Text("");
-                      } else {
-                        var date = DateFormat("dd/MM/yyyy").format(
-                            snapshot.data!.docs[index].data()['data'].toDate());
-                        return HistoryItem(
-                          data: date,
-                          diag:
-                              snapshot.data!.docs[index].data()['diagnostico'],
-                          photoLink: snapshot.data!.docs[index].data()['link'],
+                  ),
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height * 0.81,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: firestore
+                        .collection('diagnosticos')
+                        .where('uid', isEqualTo: auth.currentUser!.uid)
+                        //.orderBy('data', descending: false)
+                        //.orderBy('dataUltimaMensagem', descending: true)
+                        .snapshots(),
+                    builder: (_, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Stack();
+                      }
+                      if (snapshot.hasError) {
+                        return Text("Erro");
+                      }
+                      if (snapshot.data!.docs.length == 0) {
+                        print(snapshot);
+                        return Stack(
+                          children: [
+                            Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.hide_image_outlined,
+                                    size: 150,
+                                    color: Color.fromARGB(255, 184, 184, 184),
+                                  ),
+                                  Text(
+                                    "Não foi possível acessar nenhuma imagem",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 99, 98, 98),
+                                        fontSize: size.height * 0.02),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
                         );
                       }
-                    });
-              },
+
+                      return ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (_, index) {
+                            if (snapshot.data!.docs[index].data()['id'] ==
+                                auth.currentUser!.uid) {
+                              return Text("");
+                            } else {
+                              var date = DateFormat("dd/MM/yyyy").format(
+                                  snapshot.data!.docs[index]
+                                      .data()['data']
+                                      .toDate());
+                              return HistoryItem(
+                                data: date,
+                                diag: snapshot.data!.docs[index]
+                                    .data()['diagnostico'],
+                                photoLink:
+                                    snapshot.data!.docs[index].data()['link'],
+                              );
+                            }
+                          });
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ));

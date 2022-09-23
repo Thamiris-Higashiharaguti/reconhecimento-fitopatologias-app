@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:fitopatologia_app/model/news.model.dart';
+import 'package:fitopatologia_app/view/components/anexoNetwork.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
+import 'package:fitopatologia_app/view/newsInformation.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -47,85 +49,126 @@ class _NewsPageState extends State<NewsPage> {
     if (retorno == null) {
       return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(child: Text('Notícias')),
-          backgroundColor: Color.fromARGB(202, 59, 129, 50),
-          elevation: 20,
+          elevation: 0,
+          toolbarHeight: 0,
+          backgroundColor: Color.fromARGB(68, 76, 175, 79),
         ),
         body: Background(
-          child: CircularProgressIndicator(),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Notícias",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                  width: size.width,
+                  height: size.height * 0.802,
+                  child: Center(
+                      child: Container(
+                          width: size.width * 0.1,
+                          height: size.height * 0.05,
+                          child: CircularProgressIndicator()))),
+            ],
+          ),
         ),
       );
     }
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Center(child: Text('Notícias')),
-        backgroundColor: Color.fromARGB(202, 59, 129, 50),
-        elevation: 20,
+        elevation: 0,
+        toolbarHeight: 0,
+        backgroundColor: Color.fromARGB(68, 76, 175, 79),
       ),
       body: Background(
-          child: Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    height: size.height * 0.01,
-                  );
-                },
-                itemCount: retorno!.length,
-                itemBuilder: (context, index) {
-                  try {
-                    return Container(
-                      width: size.width * 0.7,
-                      height: size.height * 0.37,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromARGB(255, 238, 238, 238),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Notícias",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Container(
+                width: size.width,
+                height: size.height * 0.802,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: size.height * 0.05,
+                    );
+                  },
+                  itemCount: retorno!.length,
+                  itemBuilder: (context, index) {
+                    try {
+                      return InkWell(
+                        onTap: (() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewsInformation()),
+                          );
+                        }),
                         child: Column(
                           children: [
+                            Text(
+                              retorno![index]['title'],
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: size.height * 0.02,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             SizedBox(
-                                width: size.width * 0.7,
-                                height: size.height * 0.35,
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                        width: size.width * 0.7,
-                                        height: size.height * 0.2,
-                                        progressIndicatorBuilder:
-                                            (context, url, progress) {
-                                          return CircularProgressIndicator
-                                              .adaptive();
-                                        },
-                                        imageUrl: retorno![index]
-                                            ['urlToImage']),
-                                    Text(
-                                      retorno![index]['title'],
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: size.height * 0.02,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.02,
-                                    ),
-                                    Text(
-                                      retorno![index]['description'],
-                                    )
-                                  ],
-                                )),
+                              height: size.height * 0.02,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                AnexoNetwork(
+                                    arquivo: retorno![index]['urlToImage']),
+                                Container(
+                                  width: size.width * 0.4,
+                                  height: size.height * 0.2,
+                                  child: Text(
+                                    retorno![index]['description'],
+                                    textAlign: TextAlign.justify,
+                                    //overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
                         ),
-                      ),
-                    );
-                  } catch (error) {
-                    return Container();
-                  }
-                },
-              ))),
+                      );
+                    } catch (error) {
+                      return Container();
+                    }
+                  },
+                ),
+              )),
+        ],
+      )),
     );
   }
 }
