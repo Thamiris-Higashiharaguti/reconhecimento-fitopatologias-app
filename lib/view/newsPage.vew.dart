@@ -132,12 +132,15 @@ class _NewsPageState extends State<NewsPage> {
                         }),
                         child: Column(
                           children: [
-                            Text(
-                              retorno![index]['title'],
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: size.height * 0.02,
-                                  fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child: Text(
+                                retorno![index]['title'],
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: size.height * 0.03,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             SizedBox(
                               height: size.height * 0.02,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'components/alertDialog.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -23,14 +24,16 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Reference> refs = [];
   List<String> arquivos = [];
   bool loading = true;
+  final controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 0,
+        appBar: ScrollAppBar(
+          controller: controller, // Note the controller here
+          title: Text("App Bar"),
+
           backgroundColor: Color.fromARGB(68, 76, 175, 79),
         ),
         resizeToAvoidBottomInset: false,
@@ -39,7 +42,7 @@ class _HistoryPageState extends State<HistoryPage> {
             padding: const EdgeInsets.fromLTRB(10, 1, 10, 4),
             child: Column(
               children: [
-                Padding(
+                /*Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -53,10 +56,10 @@ class _HistoryPageState extends State<HistoryPage> {
                       )
                     ],
                   ),
-                ),
+                ),*/
                 Container(
                   width: size.width,
-                  height: size.height * 0.81,
+                  height: size.height * 0.8,
                   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: firestore
                         .collection('diagnosticos')
@@ -97,28 +100,33 @@ class _HistoryPageState extends State<HistoryPage> {
                         );
                       }
 
-                      return ListView.separated(
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(),
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (_, index) {
-                            if (snapshot.data!.docs[index].data()['id'] ==
-                                auth.currentUser!.uid) {
-                              return Text("");
-                            } else {
-                              var date = DateFormat("dd/MM/yyyy").format(
-                                  snapshot.data!.docs[index]
-                                      .data()['data']
-                                      .toDate());
-                              return HistoryItem(
-                                data: date,
-                                diag: snapshot.data!.docs[index]
-                                    .data()['diagnostico'],
-                                photoLink:
-                                    snapshot.data!.docs[index].data()['link'],
-                              );
-                            }
-                          });
+                      return Snap(
+                        controller: controller.appBar,
+                        child: ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(),
+                            controller: controller,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (_, index) {
+                              if (snapshot.data!.docs[index].data()['id'] ==
+                                  auth.currentUser!.uid) {
+                                return Text("");
+                              } else {
+                                var date = DateFormat("dd/MM/yyyy").format(
+                                    snapshot.data!.docs[index]
+                                        .data()['data']
+                                        .toDate());
+                                return HistoryItem(
+                                  data: date,
+                                  diag: snapshot.data!.docs[index]
+                                      .data()['diagnostico'],
+                                  photoLink:
+                                      snapshot.data!.docs[index].data()['link'],
+                                );
+                              }
+                            }),
+                      );
                     },
                   ),
                 ),
