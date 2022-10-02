@@ -24,8 +24,11 @@ class _FitopatologyInfoState extends State<FitopatologyInfo> {
     return Scaffold(
       body: Background(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: size.height * 0.03,
+            ),
             Center(
                 child: Text(
               widget.modelDiag.doenca!,
@@ -38,25 +41,67 @@ class _FitopatologyInfoState extends State<FitopatologyInfo> {
               height: size.height * 0.03,
             ),
             Container(
-              width: size.width * 1,
-              height: size.height * 0.85,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.modelDiag.descricao!,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: size.height * 0.03,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(139, 227, 255, 210),
+                  borderRadius: BorderRadius.circular(10)),
+              width: size.width * 0.9,
+              height: size.height * 0.75,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (widget.modelDiag.descricao! == "") ...[
+                      Container(),
+                    ] else ...[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Descição: ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text(widget.modelDiag.descricao!,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Tratamento:",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text(widget.modelDiag.tratamento!,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ],
+                      ),
+                    ],
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    Container(
                       width: size.width * 1,
-                      height: size.height * 0.4,
+                      height: size.height * 0.3,
                       child: PageView.builder(
                         controller: _controller,
                         itemCount: widget.arquivos.length,
@@ -73,32 +118,33 @@ class _FitopatologyInfoState extends State<FitopatologyInfo> {
                                     children: [
                                       CachedNetworkImage(
                                           width: size.width,
-                                          height: size.height * 0.4,
+                                          height: size.height * 0.3,
+                                          fit: BoxFit.fill,
                                           imageUrl: widget.arquivos[index]),
                                     ],
                                   )));
                         },
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SmoothPageIndicator(
-                        controller: _controller,
-                        count: widget.arquivos.length,
-                        effect: SwapEffect(
-                          activeDotColor: Color.fromARGB(255, 0, 71, 2),
-                          dotColor: Color.fromARGB(255, 126, 126, 126),
-                          dotHeight: 30,
-                          dotWidth: 30,
-                          spacing: 16,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SmoothPageIndicator(
+                          controller: _controller,
+                          count: widget.arquivos.length,
+                          effect: SwapEffect(
+                            activeDotColor: Color.fromARGB(255, 0, 71, 2),
+                            dotColor: Color.fromARGB(255, 126, 126, 126),
+                            dotHeight: 30,
+                            dotWidth: 30,
+                            spacing: 16,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],

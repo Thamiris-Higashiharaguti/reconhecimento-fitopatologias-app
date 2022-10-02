@@ -55,6 +55,8 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var percent =
+        (widget.modelPrimeiroDiag.probabilidade! * 100).toStringAsFixed(2);
     return Scaffold(
       body: ListView(
         shrinkWrap: false,
@@ -93,11 +95,23 @@ class _ResultPageState extends State<ResultPage> {
                                 fontSize: size.height * 0.03,
                                 fontWeight: FontWeight.bold),
                           ),
+                          Text(
+                            widget.modelPrimeiroDiag.doenca!,
+                            style: TextStyle(
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold),
+                          ),
                           SizedBox(
                             height: size.height * 0.02,
                           ),
                           Text(
-                            widget.modelPrimeiroDiag.doenca!,
+                            'Probabilidade: ',
+                            style: TextStyle(
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            percent + "%",
                             style: TextStyle(
                                 fontSize: size.height * 0.03,
                                 fontWeight: FontWeight.bold),
@@ -112,14 +126,36 @@ class _ResultPageState extends State<ResultPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DiagInfo(
-                  arquivos: arquivos,
-                  modelDiag: widget.modelPrimeiroDiag,
-                  photoLink: widget.foto),
-              DiagInfo(
-                  arquivos: arquivos2,
-                  modelDiag: widget.modelSegundoDiag,
-                  photoLink: widget.foto),
+              if (double.parse(percent) == 100) ...[
+                Text(
+                  "Resultado:",
+                  style: TextStyle(
+                      fontSize: size.height * 0.03,
+                      fontWeight: FontWeight.bold),
+                ),
+              ] else ...[
+                Text(
+                  "Possíveis Resultados",
+                  style: TextStyle(
+                      fontSize: size.height * 0.03,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+              if (double.parse(percent) == 100) ...[
+                DiagInfo(
+                    arquivos: arquivos,
+                    modelDiag: widget.modelPrimeiroDiag,
+                    photoLink: widget.foto),
+              ] else ...[
+                DiagInfo(
+                    arquivos: arquivos,
+                    modelDiag: widget.modelPrimeiroDiag,
+                    photoLink: widget.foto),
+                DiagInfo(
+                    arquivos: arquivos2,
+                    modelDiag: widget.modelSegundoDiag,
+                    photoLink: widget.foto),
+              ],
             ],
           )
         ],

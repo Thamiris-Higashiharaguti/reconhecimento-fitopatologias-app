@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitopatologia_app/view/compare.view.dart';
 import 'package:fitopatologia_app/model/diagnostico.model.dart';
 import 'package:fitopatologia_app/view/fitopatologyInfo.view.dart';
@@ -23,6 +24,7 @@ class _DiagInfoState extends State<DiagInfo> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var percent = (widget.modelDiag.probabilidade! * 100).toStringAsFixed(2);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Container(
@@ -36,11 +38,22 @@ class _DiagInfoState extends State<DiagInfo> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Text(
-                      widget.modelDiag.doenca!,
-                      style: TextStyle(
-                          fontSize: size.height * 0.03,
-                          fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.modelDiag.doenca! + " - ",
+                          style: TextStyle(
+                              fontSize: size.height * 0.03,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          percent + "%",
+                          style: TextStyle(
+                              fontSize: size.height * 0.03,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: size.height * 0.02,
@@ -77,12 +90,19 @@ class _DiagInfoState extends State<DiagInfo> {
                                     bottomRight: Radius.circular(5),
                                     topLeft: Radius.circular(5),
                                     topRight: Radius.circular(5)),
-                                child: Image.network(
-                                  widget.arquivos[index],
-                                  fit: BoxFit.cover,
-                                  height: size.height * 0.01,
-                                  width: size.width * 0.25,
-                                )),
+                                child: CachedNetworkImage(
+                                    imageUrl: widget.arquivos[index],
+                                    fit: BoxFit.cover,
+                                    height: size.height * 0.01,
+                                    width: size.width * 0.25,
+                                    placeholder: (context, url) {
+                                      return Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 50, 25, 50),
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
+                                      );
+                                    })),
                           );
                         },
                       ),
