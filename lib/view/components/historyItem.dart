@@ -82,7 +82,7 @@ class HistoryItem extends StatelessWidget {
                     Text("Diagnostico: " + diag.toString(),
                         style: TextStyle(
                             color: Color.fromARGB(255, 236, 236, 236),
-                            fontSize: size.width * 0.05,
+                            fontSize: size.width * 0.04,
                             fontWeight: FontWeight.bold)),
                     SizedBox(
                       height: size.height * 0.02,
@@ -90,7 +90,7 @@ class HistoryItem extends StatelessWidget {
                     Text("Data: " + data.toString(),
                         style: TextStyle(
                             color: Color.fromARGB(255, 236, 236, 236),
-                            fontSize: size.width * 0.05,
+                            fontSize: size.width * 0.04,
                             fontWeight: FontWeight.bold))
                   ],
                 ))

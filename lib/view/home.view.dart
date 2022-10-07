@@ -6,6 +6,8 @@ import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 import 'package:fitopatologia_app/view/newsPage.vew.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
+import 'package:fitopatologia_app/view/profile.view.dart';
+import 'package:fitopatologia_app/view/progress.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   bool uploading = false;
   double total = 0;
   bool controlador = false;
+  String erro = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -114,6 +117,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: /*Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -125,38 +129,44 @@ class _HomePageState extends State<HomePage> {
         child: currentScreen,
         bucket: bucket,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SpeedDial(
-        buttonSize: Size(60, 60),
-        spaceBetweenChildren: 20,
-        spacing: 10,
-        child: Icon(Icons.add_a_photo),
-        backgroundColor: Color(0xFF3b8132),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.camera),
-              label: "Camera",
-              onTap: () {
-                Navigator.push(
-                  context, // error
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return CameraCamera(
-                          onFile: (arquivo) => showPreview(arquivo));
-                    },
-                  ),
-                );
-              }),
-          SpeedDialChild(
-              child: Icon(Icons.image),
-              label: "Galeria",
-              onTap: () {
-                getFileFromGallery();
-              }),
-        ],
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Transform.translate(
+        offset: Offset(0, 5),
+        child: SpeedDial(
+          buttonSize: Size(60, 60),
+          spaceBetweenChildren: 20,
+          spacing: 10,
+          child: Icon(Icons.add_a_photo),
+          backgroundColor: Color(0xFF3b8132),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.camera),
+                label: "Camera",
+                onTap: () {
+                  Navigator.push(
+                    context, // error
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return CameraCamera(
+                            onFile: (arquivo) => showPreview(arquivo));
+                      },
+                    ),
+                  );
+                }),
+            SpeedDialChild(
+                child: Icon(Icons.image),
+                label: "Galeria",
+                onTap: () {
+                  getFileFromGallery();
+                }),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
+        clipBehavior: Clip.antiAlias,
         shape: const CircularNotchedRectangle(),
+        notchMargin: 10,
         color: Color(0xFF3b8132),
         child: IconTheme(
             data: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
@@ -166,15 +176,15 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.newspaper),
+                    icon: const Icon(Icons.person),
                     onPressed: () {
                       setState(() {
-                        currentScreen = NewsPage();
+                        currentScreen = const ProgressPage();
                         currentTab = 0;
                       });
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   IconButton(

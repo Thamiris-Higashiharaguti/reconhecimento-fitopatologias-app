@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitopatologia_app/view/camera.dart';
 import 'package:fitopatologia_app/view/home.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:fitopatologia_app/view/register.view.dart';
 import 'package:fitopatologia_app/view/resultPage.view.dart';
 import 'package:flutter/material.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'view/home.view.dart';
 
@@ -25,7 +25,7 @@ void main() async {
       measurementId: "G-6JXD95B72F"
     )*/
       );
-  runApp(FitoApp());
+  runApp(ProviderScope(child: FitoApp()));
 }
 
 class FitoApp extends StatelessWidget {

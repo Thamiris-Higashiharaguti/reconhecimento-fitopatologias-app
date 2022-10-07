@@ -153,7 +153,7 @@ class _NewsPageState extends State<NewsPage> {
               child: Flexible(
                 child: Container(
                   width: size.width,
-                  height: size.height * 0.802,
+                  height: size.height * 1,
                   child: ListView.separated(
                     shrinkWrap: true,
                     controller: controller,

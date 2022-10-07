@@ -67,7 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
         resizeToAvoidBottomInset: false,
         body: Background(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 1, 10, 4),
+            padding: const EdgeInsets.fromLTRB(10, 1, 10, 0),
             child: Column(
               children: [
                 /*Padding(
