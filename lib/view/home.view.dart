@@ -17,6 +17,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   File? teste;
@@ -29,10 +30,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentTab = 0;
 
-  final List<Widget> screens = [NewsPage(), HistoryPage()];
+  final List<Widget> screens = [ProgressPage(), HistoryPage()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = NewsPage();
+  Widget currentScreen = ProgressPage();
+  var paginaAtual = 0.obs;
 
   late File _image;
   late List _results;
@@ -49,6 +51,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     loadCameras();
   }
 
@@ -176,11 +179,17 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.person),
+                    icon: Icon(
+                      Icons.info,
+                      color: paginaAtual.value == 0
+                          ? Color.fromARGB(255, 0, 0, 0)
+                          : Color.fromARGB(255, 255, 255, 255),
+                      size: paginaAtual.value == 0 ? 30 : 20,
+                    ),
                     onPressed: () {
                       setState(() {
                         currentScreen = const ProgressPage();
-                        currentTab = 0;
+                        paginaAtual.value = 0;
                       });
                     },
                   ),
@@ -188,11 +197,17 @@ class _HomePageState extends State<HomePage> {
                     width: 20,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.history),
+                    icon: Icon(
+                      Icons.history,
+                      color: paginaAtual.value == 1
+                          ? Color.fromARGB(255, 0, 0, 0)
+                          : Color.fromARGB(255, 255, 255, 255),
+                      size: paginaAtual.value == 1 ? 30 : 20,
+                    ),
                     onPressed: () {
                       setState(() {
                         currentScreen = HistoryPage();
-                        currentTab = 1;
+                        paginaAtual.value = 1;
                       });
                     },
                   ),
