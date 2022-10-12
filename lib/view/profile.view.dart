@@ -50,22 +50,20 @@ class _ProfileEditViewState extends State<ProfileEditView> {
         .collection('usuarios')
         .where('email', isEqualTo: emailController.text)
         .get();
-        
-    if (usuario.docs.isEmpty) {
-      var userAuth = await auth.createUserWithEmailAndPassword(
+
+    if (usuario.docs.isEmpty || usuario.docs[0]['uid'] == userUid) {
+      /*var userAuth = await auth.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
-      firestore.collection("usuarios").doc(userAuth.user!.uid).update({
+      firestore.collection("usuarios").doc(userAuth.user!.uid).set({
         'uid': userAuth.user!.uid,
         'apelido': apelidoController.text,
         'email': emailController.text,
         'senha': passwordController.text
-      });
-      
-    } /*else {
-      if( == userUid)
+      });*/
+    } else {
       showAlertDialog(context, 'Atenção', 'Email já cadastrado');
-    }*/
+    }
   }
 
   void logout(BuildContext context){
