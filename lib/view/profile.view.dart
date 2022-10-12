@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitopatologia_app/view/components/alerts.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import 'components/alertDialog.dart';
+import 'components/alerts.dart';
 
 class ProfileEditView extends StatefulWidget {
   @override
@@ -66,7 +67,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
         carregaUsuario();
       });
     } else {
-      showAlertDialog(context, 'Atenção', 'Email já cadastrado');
+      showInfoAlert(context, 'Atenção', 'Email já cadastrado');
     }
   }
 

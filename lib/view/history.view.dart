@@ -9,7 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'components/alertDialog.dart';
+import 'components/alerts.dart';
 
 class HistoryPage extends StatefulWidget {
   @override

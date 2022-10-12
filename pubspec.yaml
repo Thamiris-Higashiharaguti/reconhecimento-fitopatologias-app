@@ -53,6 +53,7 @@ dependencies:
   page_view_indicator_ns: ^1.0.0+1
   flutter_riverpod: ^1.0.4
   get: ^4.6.5
+  art_sweetalert: ^0.0.5
 
 dev_dependencies:
   flutter_test:

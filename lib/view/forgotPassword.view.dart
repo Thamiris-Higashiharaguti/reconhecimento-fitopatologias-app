@@ -4,7 +4,7 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import 'components/alertDialog.dart';
+import 'components/alerts.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   @override

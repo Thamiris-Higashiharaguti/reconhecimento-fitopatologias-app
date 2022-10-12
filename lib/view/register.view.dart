@@ -4,7 +4,7 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import 'components/alertDialog.dart';
+import 'components/alerts.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _RegisterViewState extends State<RegisterView> {
         .where('email', isEqualTo: emailController.text)
         .get();
     if (usuario.docs.isNotEmpty) {
-      showAlertDialog(context, 'Atenção', 'Email já cadastrado');
+      showInfoAlert(context, 'Atenção', 'Email já cadastrado');
       await Future.delayed(const Duration(seconds: 4), () {});
       Navigator.pushNamed(context, '/login');
     } else {
@@ -41,6 +41,8 @@ class _RegisterViewState extends State<RegisterView> {
         'email': emailController.text,
         'senha': passwordController.text
       });
+
+      showSuccessAlert(context, 'Sucesso!');
     }
   }
 

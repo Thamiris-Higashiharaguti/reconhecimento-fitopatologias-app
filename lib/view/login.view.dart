@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitopatologia_app/view/components/alerts.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import 'components/alertDialog.dart';
+import 'components/alerts.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
       Navigator.of(context).pushNamed('/home');
     } on FirebaseAuthException catch (e) {
       authException(e);
-      showAlertDialog(context, 'Atenção', errorMsg);
+      showInfoAlert(context, 'Atenção', errorMsg);
     }
   }
 
