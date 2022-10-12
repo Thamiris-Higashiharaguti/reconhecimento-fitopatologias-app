@@ -33,10 +33,12 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
     var usuario = await firestore.collection('usuarios').doc(userUid).get();
 
-    apelidoController.text = usuario['apelido'];
-    emailController.text = usuario['email'];
-
-    setState(() {});
+    setState(() {
+      apelidoController.text = usuario['apelido'];
+      emailController.text = usuario['email'];
+      passwordController.text = '';
+      confirmPasswordController.text = '';
+    });
 
     return userUid;
   }
@@ -50,7 +52,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
     if (usuario.docs.isEmpty || usuario.docs[0]['uid'] == userUid) {
       var user = auth.currentUser!;
       userUid = user.uid;
-      
+
       await user.updateEmail(emailController.text);
       await user.updatePassword(passwordController.text);
 
@@ -64,8 +66,9 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
       setState(() {
         edicao = false;
-        carregaUsuario();
       });
+      carregaUsuario();
+      showSuccessAlert(context, 'Sucesso!', 'Alterações salvas');
     } else {
       showInfoAlert(context, 'Atenção', 'Email já cadastrado');
     }
