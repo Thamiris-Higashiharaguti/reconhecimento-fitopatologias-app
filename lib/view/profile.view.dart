@@ -24,7 +24,6 @@ class _ProfileEditViewState extends State<ProfileEditView> {
   var userUid = '';
 
   Future carregaUsuario() async {
-
     FirebaseAuth auth = FirebaseAuth.instance;
     var user = auth.currentUser!;
     userUid = user.uid;
@@ -66,14 +65,12 @@ class _ProfileEditViewState extends State<ProfileEditView> {
     }
   }
 
-  void logout(BuildContext context){
-    
-  }
+  void logout(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Background(
@@ -86,13 +83,15 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back_ios), 
-                      onPressed: () {},
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     Visibility(
                       visible: !edicao,
                       child: IconButton(
-                        icon: Icon(Icons.edit), 
+                        icon: Icon(Icons.edit),
                         onPressed: () {
                           setState(() {
                             edicao = true;
@@ -110,7 +109,10 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                   child: ListView(shrinkWrap: true, children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(apelidoController.text, style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
+                      child: Text(apelidoController.text,
+                          style: TextStyle(
+                              fontSize: size.height * 0.04,
+                              fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -148,24 +150,27 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: TextFormField(
-                          controller: passwordController,
-                          enabled: edicao,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: "Senha",
-                            labelStyle: TextStyle(
-                              color: Colors.black38,
-                              fontSize: size.height * 0.03,
-                            ),
+                        controller: passwordController,
+                        enabled: edicao,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Senha",
+                          labelStyle: TextStyle(
+                            color: Colors.black38,
+                            fontSize: size.height * 0.03,
                           ),
-                          validator: MultiValidator([
-                            RequiredValidator(errorText: "Campo obrigatório"),
-                            MinLengthValidator(6,
-                                errorText: "A senha deve conter no mínimo 6 caracteres"),
-                            PatternValidator(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
-                                errorText: 'A senha deve conter números, letras maiúsculas e minúsculas')
-                          ]),
+                        ),
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Campo obrigatório"),
+                          MinLengthValidator(6,
+                              errorText:
+                                  "A senha deve conter no mínimo 6 caracteres"),
+                          PatternValidator(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
+                              errorText:
+                                  'A senha deve conter números, letras maiúsculas e minúsculas')
+                        ]),
                       ),
                     ),
                     Visibility(
@@ -198,13 +203,16 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                           child: Text("Salvar"),
                           style: ElevatedButton.styleFrom(
                               primary: Color(0xFF3b8132),
-                              padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.1, vertical: 20),
                               textStyle: TextStyle(
-                                  fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                                  fontSize: size.height * 0.03,
+                                  fontWeight: FontWeight.bold)),
                           onPressed: () => {
-                            if (formkey.currentState!.validate()) {
-                              saveUpdate(context),
-                            }
+                            if (formkey.currentState!.validate())
+                              {
+                                saveUpdate(context),
+                              }
                           },
                         ),
                       ),
@@ -217,9 +225,11 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                           child: Text("Sair"),
                           style: ElevatedButton.styleFrom(
                               primary: Color(0xFF3b8132),
-                              padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.1, vertical: 20),
                               textStyle: TextStyle(
-                                  fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                                  fontSize: size.height * 0.03,
+                                  fontWeight: FontWeight.bold)),
                           onPressed: () => {
                             logout(context),
                           },
@@ -231,9 +241,9 @@ class _ProfileEditViewState extends State<ProfileEditView> {
               ),
             ],
           ),
-        )
-      );
+        ));
   }
+
   void initState() {
     super.initState();
     final user = carregaUsuario();

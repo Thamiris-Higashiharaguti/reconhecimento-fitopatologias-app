@@ -34,7 +34,7 @@ class _PreviewPageNetworkState extends State<PreviewPageNetwork> {
               Positioned.fill(
                   child: CachedNetworkImage(
                 imageUrl: widget.photoLink,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

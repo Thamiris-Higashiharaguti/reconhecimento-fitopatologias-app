@@ -29,7 +29,7 @@ class _RegisterViewState extends State<RegisterView> {
         .get();
     if (usuario.docs.isNotEmpty) {
       showAlertDialog(context, 'Atenção', 'Email já cadastrado');
-      await Future.delayed(const Duration(seconds: 4), (){});
+      await Future.delayed(const Duration(seconds: 4), () {});
       Navigator.pushNamed(context, '/login');
     } else {
       var userAuth = await auth.createUserWithEmailAndPassword(
@@ -60,11 +60,17 @@ class _RegisterViewState extends State<RegisterView> {
                   child: ListView(shrinkWrap: true, children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: Text("Cadastro", style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
+                      child: Text("Cadastro",
+                          style: TextStyle(
+                              fontSize: size.height * 0.04,
+                              fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
-                      child: Text("Preencha os campos para se registrar", style: TextStyle(fontSize: size.height * 0.02),),
+                      child: Text(
+                        "Preencha os campos para se registrar",
+                        style: TextStyle(fontSize: size.height * 0.02),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -113,9 +119,12 @@ class _RegisterViewState extends State<RegisterView> {
                           validator: MultiValidator([
                             RequiredValidator(errorText: "Campo obrigatório"),
                             MinLengthValidator(6,
-                                errorText: "A senha deve conter no mínimo 6 caracteres"),
-                            PatternValidator(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
-                                errorText: 'A senha deve conter números, letras maiúsculas e minúsculas')
+                                errorText:
+                                    "A senha deve conter no mínimo 6 caracteres"),
+                            PatternValidator(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
+                                errorText:
+                                    'A senha deve conter números, letras maiúsculas e minúsculas')
                           ])),
                     ),
                     Padding(
@@ -143,13 +152,16 @@ class _RegisterViewState extends State<RegisterView> {
                         child: Text("Cadastrar"),
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xFF3b8132),
-                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(
-                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold)),
                         onPressed: () => {
-                          if (formkey.currentState!.validate()) {
-                            cadastrar(context),
-                          }
+                          if (formkey.currentState!.validate())
+                            {
+                              cadastrar(context),
+                            }
                         },
                       ),
                     ),

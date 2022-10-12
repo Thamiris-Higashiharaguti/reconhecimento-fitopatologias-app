@@ -6,6 +6,8 @@ import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 import 'package:fitopatologia_app/view/newsPage.vew.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
+import 'package:fitopatologia_app/view/profile.view.dart';
+import 'package:fitopatologia_app/view/progress.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,6 +17,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   File? teste;
@@ -27,13 +30,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentTab = 0;
 
-  final List<Widget> screens = [
-    NewsPage(),
-    HistoryPage()
-  ];
+  final List<Widget> screens = [ProgressPage(), HistoryPage()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = NewsPage();
+  Widget currentScreen = ProgressPage();
+  var paginaAtual = 0.obs;
 
   late File _image;
   late List _results;
@@ -44,10 +45,13 @@ class _HomePageState extends State<HomePage> {
   final picker = ImagePicker();
   bool uploading = false;
   double total = 0;
+  bool controlador = false;
+  String erro = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     loadCameras();
   }
 
@@ -116,6 +120,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: /*Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -123,43 +128,48 @@ class _HomePageState extends State<HomePage> {
           children: [],
         ),
       ),*/
-      PageStorage(
+          PageStorage(
         child: currentScreen,
         bucket: bucket,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SpeedDial(
-        buttonSize: Size(60, 60),
-        spaceBetweenChildren: 20,
-        spacing: 10,
-        animatedIcon: AnimatedIcons.menu_close,
-        //child: Icon(Icons.scanner),
-        backgroundColor: Color(0xFF3b8132),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.camera),
-              label: "Camera",
-              onTap: () {
-                Navigator.push(
-                  context, // error
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return CameraCamera(
-                          onFile: (arquivo) => showPreview(arquivo));
-                    },
-                  ),
-                );
-              }),
-          SpeedDialChild(
-              child: Icon(Icons.image),
-              label: "Galeria",
-              onTap: () {
-                getFileFromGallery();
-              }),
-        ],
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Transform.translate(
+        offset: Offset(0, 5),
+        child: SpeedDial(
+          buttonSize: Size(60, 60),
+          spaceBetweenChildren: 20,
+          spacing: 10,
+          child: Icon(Icons.add_a_photo),
+          backgroundColor: Color(0xFF3b8132),
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.camera),
+                label: "Camera",
+                onTap: () {
+                  Navigator.push(
+                    context, // error
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return CameraCamera(
+                            onFile: (arquivo) => showPreview(arquivo));
+                      },
+                    ),
+                  );
+                }),
+            SpeedDialChild(
+                child: Icon(Icons.image),
+                label: "Galeria",
+                onTap: () {
+                  getFileFromGallery();
+                }),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
+        clipBehavior: Clip.antiAlias,
         shape: const CircularNotchedRectangle(),
+        notchMargin: 10,
         color: Color(0xFF3b8132),
         child: IconTheme(
             data: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
@@ -169,23 +179,35 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.newspaper),
+                    icon: Icon(
+                      Icons.info,
+                      color: paginaAtual.value == 0
+                          ? Color.fromARGB(255, 0, 0, 0)
+                          : Color.fromARGB(255, 255, 255, 255),
+                      size: paginaAtual.value == 0 ? 30 : 20,
+                    ),
                     onPressed: () {
                       setState(() {
-                        currentScreen = NewsPage();
-                        currentTab = 0;
+                        currentScreen = const ProgressPage();
+                        paginaAtual.value = 0;
                       });
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.history),
+                    icon: Icon(
+                      Icons.history,
+                      color: paginaAtual.value == 1
+                          ? Color.fromARGB(255, 0, 0, 0)
+                          : Color.fromARGB(255, 255, 255, 255),
+                      size: paginaAtual.value == 1 ? 30 : 20,
+                    ),
                     onPressed: () {
                       setState(() {
                         currentScreen = HistoryPage();
-                        currentTab = 1;
+                        paginaAtual.value = 1;
                       });
                     },
                   ),

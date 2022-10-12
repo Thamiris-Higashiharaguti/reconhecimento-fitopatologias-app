@@ -29,7 +29,7 @@ class _PreviewPageState extends State<PreviewPage>
 
   void createAlbum(File imagem) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://5687-34-75-219-67.ngrok.io/imagem'));
+        'POST', Uri.parse('http://1289-35-245-186-64.ngrok.io/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
@@ -43,15 +43,17 @@ class _PreviewPageState extends State<PreviewPage>
             return ResultPage(
               foto: imagem,
               modelPrimeiroDiag: DiagnosticoModel(
-                  valueMap['PrimeiroDiagnostico']['doenca'],
-                  valueMap['PrimeiroDiagnostico']['descricao'],
-                  double.parse(
-                      valueMap['PrimeiroDiagnostico']['probabilidade'])),
+                valueMap['PrimeiroDiagnostico']['doenca'],
+                valueMap['PrimeiroDiagnostico']['descricao'],
+                double.parse(valueMap['PrimeiroDiagnostico']['probabilidade']),
+                valueMap['PrimeiroDiagnostico']['tratamento'],
+              ),
               modelSegundoDiag: DiagnosticoModel(
-                  valueMap['SegundoDiagnostico']['doenca'],
-                  valueMap['SegundoDiagnostico']['descricao'],
-                  double.parse(
-                      valueMap['SegundoDiagnostico']['probabilidade'])),
+                valueMap['SegundoDiagnostico']['doenca'],
+                valueMap['SegundoDiagnostico']['descricao'],
+                double.parse(valueMap['SegundoDiagnostico']['probabilidade']),
+                valueMap['SegundoDiagnostico']['tratamento'],
+              ),
             );
           },
         ),
@@ -102,7 +104,7 @@ class _PreviewPageState extends State<PreviewPage>
               Positioned.fill(
                   child: Image.file(
                 widget.teste,
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
               )),
               if (uploading != true) ...[
                 Container()

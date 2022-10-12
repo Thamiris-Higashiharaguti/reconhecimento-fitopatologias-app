@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitopatologia_app/view/previewPageNetwork.view.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +27,7 @@ class HistoryItem extends StatelessWidget {
         height: size.height * 0.12,
         width: size.width * 0.2,
         decoration: BoxDecoration(
-          color: Color.fromARGB(151, 29, 99, 1),
+          color: Color.fromARGB(96, 29, 99, 1),
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
@@ -42,47 +43,33 @@ class HistoryItem extends StatelessWidget {
             Positioned(
               top: size.height * 0.01,
               left: size.width * 0.02,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PreviewPageNetwork(photoLink: photoLink)),
+              child: OpenContainer(
+                transitionDuration: Duration(milliseconds: 500),
+                closedBuilder: (context, action) {
+                  return ClipRRect(
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) {
+                        return Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      },
+                      imageUrl: photoLink,
+                      fit: BoxFit.fitWidth,
+                      height: size.height * 0.1,
+                      width: size.width * 0.2,
+                      errorWidget: (context, url, error) => Container(
+                        child: const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
                   );
                 },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(5),
-                          bottomRight: Radius.circular(5),
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5)),
-                      child: CachedNetworkImage(
-                        imageUrl: photoLink,
-                        fit: BoxFit.cover,
-                        height: size.height * 0.1,
-                        width: size.width * 0.2,
-                        errorWidget: (context, url, error) => Container(
-                          child: const Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                        ),
-                      )
-                      /*Image.network(
-                        photoLink,
-                        fit: BoxFit.cover,
-                        height: size.height * 0.1,
-                        width: size.width * 0.2,
-                      )*/
-                      ),
-                ),
+                openBuilder: (context, action) {
+                  return PreviewPageNetwork(photoLink: photoLink);
+                },
               ),
             ),
             Positioned(
@@ -94,16 +81,16 @@ class HistoryItem extends StatelessWidget {
                   children: [
                     Text("Diagnostico: " + diag.toString(),
                         style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            fontSize: size.width * 0.05,
+                            color: Color.fromARGB(255, 236, 236, 236),
+                            fontSize: size.width * 0.04,
                             fontWeight: FontWeight.bold)),
                     SizedBox(
                       height: size.height * 0.02,
                     ),
                     Text("Data: " + data.toString(),
                         style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            fontSize: size.width * 0.05,
+                            color: Color.fromARGB(255, 236, 236, 236),
+                            fontSize: size.width * 0.04,
                             fontWeight: FontWeight.bold))
                   ],
                 ))

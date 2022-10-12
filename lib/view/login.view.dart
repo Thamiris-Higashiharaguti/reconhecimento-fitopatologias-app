@@ -61,11 +61,16 @@ class _LoginViewState extends State<LoginView> {
                   child: ListView(shrinkWrap: true, children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: Text("Login", style: TextStyle(fontSize: size.height * 0.04, fontWeight: FontWeight.bold)),
+                      child: Text("Login",
+                          style: TextStyle(
+                              fontSize: size.height * 0.04,
+                              fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
-                      child: Text("Faça login para ter acesso a todas as funcionalidade", style: TextStyle(fontSize: size.height * 0.02)),
+                      child: Text(
+                          "Faça login para ter acesso a todas as funcionalidade",
+                          style: TextStyle(fontSize: size.height * 0.02)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -105,20 +110,19 @@ class _LoginViewState extends State<LoginView> {
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
                                 errorText:
                                     'A senha deve conter números, letras maiúsculas e minúsculas')
-                          ])
-                      ),
+                          ])),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end, 
-                      children: [ 
-                        GestureDetector(
-                          child: Text("Esqueci minha senha", style: TextStyle(color: Colors.blue, fontSize: size.height * 0.015)),
-                          onTap: () {},
-                        )
-                      ]
-                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      GestureDetector(
+                        child: Text("Esqueci minha senha",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: size.height * 0.015)),
+                        onTap: () {},
+                      )
+                    ]),
                     Padding(
-                      padding: const EdgeInsets.only(top:10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: ElevatedButton(
                         child: Text("Entrar"),
                         style: ElevatedButton.styleFrom(
@@ -126,7 +130,8 @@ class _LoginViewState extends State<LoginView> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(
-                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold)),
                         onPressed: () => {
                           if (formkey.currentState!.validate())
                             {
@@ -144,7 +149,8 @@ class _LoginViewState extends State<LoginView> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(
-                                fontSize: size.height * 0.03, fontWeight: FontWeight.bold)),
+                                fontSize: size.height * 0.03,
+                                fontWeight: FontWeight.bold)),
                         onPressed: () => cadastrar(context),
                       ),
                     ),

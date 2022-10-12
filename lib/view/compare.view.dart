@@ -66,6 +66,7 @@ class _ComparePageState extends State<ComparePage> {
                               CachedNetworkImage(
                                   width: size.width,
                                   height: size.height * 0.5,
+                                  fit: BoxFit.cover,
                                   imageUrl: widget.arquivos[index]),
                             ],
                           )));
