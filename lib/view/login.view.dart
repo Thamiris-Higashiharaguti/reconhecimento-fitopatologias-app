@@ -118,7 +118,9 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: size.height * 0.015)),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, '/forgotPassword');
+                        },
                       )
                     ]),
                     Padding(

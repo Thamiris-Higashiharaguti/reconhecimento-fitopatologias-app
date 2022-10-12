@@ -23,18 +23,17 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
   var userUid = '';
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   Future carregaUsuario() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     var user = auth.currentUser!;
     userUid = user.uid;
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     var usuario = await firestore.collection('usuarios').doc(userUid).get();
 
     apelidoController.text = usuario['apelido'];
     emailController.text = usuario['email'];
-    passwordController.text = usuario['senha'];
 
     setState(() {});
 
@@ -42,30 +41,39 @@ class _ProfileEditViewState extends State<ProfileEditView> {
   }
 
   void saveUpdate(BuildContext context) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    FirebaseAuth auth = FirebaseAuth.instance;
-
     var usuario = await firestore
         .collection('usuarios')
         .where('email', isEqualTo: emailController.text)
         .get();
 
     if (usuario.docs.isEmpty || usuario.docs[0]['uid'] == userUid) {
-      /*var userAuth = await auth.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      var user = auth.currentUser!;
+      userUid = user.uid;
+      
+      await user.updateEmail(emailController.text);
+      await user.updatePassword(passwordController.text);
 
-      firestore.collection("usuarios").doc(userAuth.user!.uid).set({
-        'uid': userAuth.user!.uid,
+      var usuario = await firestore.collection('usuarios').doc(userUid).get();
+
+      firestore.collection("usuarios").doc(userUid).update({
         'apelido': apelidoController.text,
         'email': emailController.text,
         'senha': passwordController.text
-      });*/
+      });
+
+      setState(() {
+        edicao = false;
+        carregaUsuario();
+      });
     } else {
       showAlertDialog(context, 'Atenção', 'Email já cadastrado');
     }
   }
 
-  void logout(BuildContext context) {}
+  void logout(BuildContext context) {
+    auth.signOut();
+    Navigator.pushNamed(context, '/login');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +93,12 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () {
-                        Navigator.pop(context);
+                        edicao == false
+                            ? Navigator.pop(context)
+                            : setState(() {
+                                edicao = false;
+                                carregaUsuario();
+                              });
                       },
                     ),
                     Visibility(
@@ -147,30 +160,33 @@ class _ProfileEditViewState extends State<ProfileEditView> {
                             EmailValidator(errorText: "Email inválido"),
                           ])),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextFormField(
-                        controller: passwordController,
-                        enabled: edicao,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Senha",
-                          labelStyle: TextStyle(
-                            color: Colors.black38,
-                            fontSize: size.height * 0.03,
+                    Visibility(
+                      visible: edicao,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: TextFormField(
+                          controller: passwordController,
+                          enabled: edicao,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Senha",
+                            labelStyle: TextStyle(
+                              color: Colors.black38,
+                              fontSize: size.height * 0.03,
+                            ),
                           ),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: "Campo obrigatório"),
+                            MinLengthValidator(6,
+                                errorText:
+                                    "A senha deve conter no mínimo 6 caracteres"),
+                            PatternValidator(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
+                                errorText:
+                                    'A senha deve conter números, letras maiúsculas e minúsculas')
+                          ]),
                         ),
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Campo obrigatório"),
-                          MinLengthValidator(6,
-                              errorText:
-                                  "A senha deve conter no mínimo 6 caracteres"),
-                          PatternValidator(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$',
-                              errorText:
-                                  'A senha deve conter números, letras maiúsculas e minúsculas')
-                        ]),
                       ),
                     ),
                     Visibility(
