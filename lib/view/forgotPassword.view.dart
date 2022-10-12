@@ -18,9 +18,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   String errorMsg = '';
 
-  void enviaEmail(BuildContext context) {
+  void enviaEmail(BuildContext context) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     auth.sendPasswordResetEmail(email: emailController.text);
+
+    await showSuccessAlert(context, 'Sucesso!', 'Um link foi enviado para o email informado');
+    Navigator.of(context).pushNamed('/login');
   }
 
   void buscaEmail(BuildContext context) async {
