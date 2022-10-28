@@ -33,10 +33,12 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
     var usuario = await firestore.collection('usuarios').doc(userUid).get();
 
-    apelidoController.text = usuario['apelido'];
-    emailController.text = usuario['email'];
-
-    setState(() {});
+    setState(() {
+      apelidoController.text = usuario['apelido'];
+      emailController.text = usuario['email'];
+      passwordController.text = '';
+      confirmPasswordController.text = '';
+    });
 
     return userUid;
   }
@@ -50,11 +52,19 @@ class _ProfileEditViewState extends State<ProfileEditView> {
     if (usuario.docs.isEmpty || usuario.docs[0]['uid'] == userUid) {
       var user = auth.currentUser!;
       userUid = user.uid;
-      
-      await user.updateEmail(emailController.text);
-      await user.updatePassword(passwordController.text);
 
       var usuario = await firestore.collection('usuarios').doc(userUid).get();
+
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: usuario['senha'], password: usuario['senha']);
+
+      user.reauthenticateWithCredential(credential);
+
+      /*await auth.signInWithEmailAndPassword(
+         email: usuario['senha'], password: usuario['senha']);*/
+
+      await user.updateEmail(emailController.text);
+      await user.updatePassword(passwordController.text);
 
       firestore.collection("usuarios").doc(userUid).update({
         'apelido': apelidoController.text,
@@ -64,8 +74,9 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
       setState(() {
         edicao = false;
-        carregaUsuario();
       });
+      showSuccessAlert(context, 'Sucesso!', 'Alterações salvas com sucesso');
+      carregaUsuario();
     } else {
       showInfoAlert(context, 'Atenção', 'Email já cadastrado');
     }
