@@ -22,135 +22,106 @@ class _FitopatologyInfoState extends State<FitopatologyInfo> {
     Size size = MediaQuery.of(context).size;
     final _controller = PageController();
     return Scaffold(
-      body: Background(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
+      body: ListView(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Center(
-                  child: Text(
-                widget.modelDiag.doenca!,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: size.height * 0.05,
-                    fontWeight: FontWeight.bold),
-              )),
+              if (widget.modelDiag.descricao! == "") ...[
+                Container(),
+              ] else ...[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Descição: ",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.height * 0.03,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Text(widget.modelDiag.descricao!,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.height * 0.02,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Tratamento:",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.height * 0.03,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Text(widget.modelDiag.tratamento!,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.height * 0.02,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                ),
+              ],
               SizedBox(
                 height: size.height * 0.03,
               ),
               Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(139, 227, 255, 210),
-                    borderRadius: BorderRadius.circular(10)),
-                width: size.width * 0.9,
-                height: size.height * 0.75,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      if (widget.modelDiag.descricao! == "") ...[
-                        Container(),
-                      ] else ...[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Descição: ",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: size.height * 0.03,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Text(widget.modelDiag.descricao!,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: size.height * 0.02,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Tratamento:",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: size.height * 0.03,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Text(widget.modelDiag.tratamento!,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: size.height * 0.02,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ],
-                        ),
-                      ],
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      Container(
-                        width: size.width * 1,
-                        height: size.height * 0.3,
-                        child: PageView.builder(
-                          controller: _controller,
-                          itemCount: widget.arquivos.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                                width: size.width,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10),
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10)),
-                                    child: Column(
-                                      children: [
-                                        CachedNetworkImage(
-                                            width: size.width,
-                                            height: size.height * 0.3,
-                                            fit: BoxFit.fill,
-                                            imageUrl: widget.arquivos[index]),
-                                      ],
-                                    )));
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: SmoothPageIndicator(
-                            controller: _controller,
-                            count: widget.arquivos.length,
-                            effect: SwapEffect(
-                              activeDotColor: Color.fromARGB(255, 0, 71, 2),
-                              dotColor: Color.fromARGB(255, 126, 126, 126),
-                              dotHeight: 30,
-                              dotWidth: 30,
-                              spacing: 16,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                width: size.width * 1,
+                height: size.height * 0.3,
+                child: PageView.builder(
+                  controller: _controller,
+                  itemCount: widget.arquivos.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                        width: size.width,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            child: Column(
+                              children: [
+                                CachedNetworkImage(
+                                    width: size.width,
+                                    height: size.height * 0.3,
+                                    fit: BoxFit.fill,
+                                    imageUrl: widget.arquivos[index]),
+                              ],
+                            )));
+                  },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SmoothPageIndicator(
+                    controller: _controller,
+                    count: widget.arquivos.length,
+                    effect: SwapEffect(
+                      activeDotColor: Color.fromARGB(255, 0, 71, 2),
+                      dotColor: Color.fromARGB(255, 126, 126, 126),
+                      dotHeight: 30,
+                      dotWidth: 30,
+                      spacing: 16,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
-        ),
+        ],
       ),
     );
   }

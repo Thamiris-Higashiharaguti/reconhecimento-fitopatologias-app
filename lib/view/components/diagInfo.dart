@@ -112,17 +112,26 @@ class _DiagInfoState extends State<DiagInfo> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context, // error
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return FitopatologyInfo(
-                                arquivos: widget.arquivos,
-                                modelDiag: widget.modelDiag,
-                              );
-                            },
-                          ),
-                        );
+                        showDialog<String>(
+                            context: context,
+                            useSafeArea: true,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title:
+                                      Text(widget.modelDiag.doenca!.toString()),
+                                  content: FitopatologyInfo(
+                                    arquivos: widget.arquivos,
+                                    modelDiag: widget.modelDiag,
+                                  ),
+                                  actions: <Widget>[
+                                    Center(
+                                      child: TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'OK'),
+                                        child: const Text('FECHAR'),
+                                      ),
+                                    ),
+                                  ],
+                                ));
                       },
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all<Size>(

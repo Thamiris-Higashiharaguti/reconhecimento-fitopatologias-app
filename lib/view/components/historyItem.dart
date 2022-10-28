@@ -44,7 +44,7 @@ class HistoryItem extends StatelessWidget {
               top: size.height * 0.01,
               left: size.width * 0.02,
               child: OpenContainer(
-                transitionDuration: Duration(milliseconds: 500),
+                transitionDuration: Duration(milliseconds: 250),
                 closedBuilder: (context, action) {
                   return ClipRRect(
                     child: CachedNetworkImage(

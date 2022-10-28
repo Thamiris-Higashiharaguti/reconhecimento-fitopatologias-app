@@ -18,7 +18,7 @@ class InfoItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Container(
-        width: size.width * 0.3,
+        width: size.width * 0.25,
         height: size.height * 0.13,
         decoration: BoxDecoration(
             boxShadow: [

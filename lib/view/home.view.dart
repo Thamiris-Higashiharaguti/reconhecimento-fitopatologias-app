@@ -8,6 +8,7 @@ import 'package:fitopatologia_app/view/newsPage.vew.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:fitopatologia_app/view/progress.view.dart';
+//import 'package:fitopatologia_app/view/components/progressPlant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> screens = [ProgressPage(), HistoryPage()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = ProgressPage();
+  Widget currentScreen = HistoryPage();
   var paginaAtual = 0.obs;
 
   late File _image;
@@ -188,6 +189,25 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
+                        // showDialog<String>(
+                        //     context: context,
+                        //     useSafeArea: true,
+                        //     builder: (BuildContext context) => AlertDialog(
+                        //           insetPadding:
+                        //               EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        //           contentPadding: EdgeInsets.zero,
+                        //           title: Center(child: Text("Teste")),
+                        //           content: ProgressPlant(),
+                        //           actions: <Widget>[
+                        //             Center(
+                        //               child: TextButton(
+                        //                 onPressed: () =>
+                        //                     Navigator.pop(context, 'OK'),
+                        //                 child: const Text('FECHAR'),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ));
                         currentScreen = const ProgressPage();
                         paginaAtual.value = 0;
                       });

@@ -4,6 +4,7 @@ import 'package:fitopatologia_app/model/diagnostico.model.dart';
 import 'package:fitopatologia_app/view/components/anexo.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:fitopatologia_app/view/components/diagInfo.dart';
+import 'package:fitopatologia_app/view/home.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -156,6 +157,28 @@ class _ResultPageState extends State<ResultPage> {
                     modelDiag: widget.modelSegundoDiag,
                     photoLink: widget.foto),
               ],
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Color.fromARGB(157, 255, 61, 47)),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context, // error
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return HomePage();
+                            },
+                          ),
+                        );
+                      },
+                      child: Text("FECHAR")),
+                ),
+              )
             ],
           )
         ],
