@@ -159,7 +159,7 @@ class _PreviewPageState extends State<PreviewPage>
                             onPressed: () {
                               setState(() {
                                 uploading = true;
-                                createAlbum(widget.teste!);
+                                createAlbum(widget.teste);
                               });
 
                               /*
