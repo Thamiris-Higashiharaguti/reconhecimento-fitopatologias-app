@@ -78,6 +78,22 @@ class _ResultPageState extends State<ResultPage> {
                 ],
               )),
               Positioned(
+                  top: 20,
+                  right: 10,
+                  child: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.push(
+                        context, // error
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return HomePage();
+                          },
+                        ),
+                      );
+                    },
+                  )),
+              Positioned(
                   top: size.height * 0.05,
                   left: size.width * 0.05,
                   right: size.width * 0.05,
@@ -157,28 +173,6 @@ class _ResultPageState extends State<ResultPage> {
                     modelDiag: widget.modelSegundoDiag,
                     photoLink: widget.foto),
               ],
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            Color.fromARGB(157, 255, 61, 47)),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context, // error
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return HomePage();
-                            },
-                          ),
-                        );
-                      },
-                      child: Text("FECHAR")),
-                ),
-              )
             ],
           )
         ],

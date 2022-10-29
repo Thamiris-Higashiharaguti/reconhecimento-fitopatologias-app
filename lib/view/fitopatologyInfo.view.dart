@@ -33,13 +33,25 @@ class _FitopatologyInfoState extends State<FitopatologyInfo> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Descição: ",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: size.height * 0.03,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Descição: ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: size.height * 0.03,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.close),
+                          color: Colors.red,
+                        )
+                      ],
+                    ),
                     Text(widget.modelDiag.descricao!,
                         textAlign: TextAlign.justify,
                         style: TextStyle(

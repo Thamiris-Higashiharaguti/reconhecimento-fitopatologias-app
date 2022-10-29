@@ -112,26 +112,33 @@ class _DiagInfoState extends State<DiagInfo> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        showDialog<String>(
+                        showModalBottomSheet<dynamic>(
                             context: context,
-                            useSafeArea: true,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title:
-                                      Text(widget.modelDiag.doenca!.toString()),
-                                  content: FitopatologyInfo(
-                                    arquivos: widget.arquivos,
-                                    modelDiag: widget.modelDiag,
-                                  ),
-                                  actions: <Widget>[
-                                    Center(
-                                      child: TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'OK'),
-                                        child: const Text('FECHAR'),
-                                      ),
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) {
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.25),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: new BorderRadius.only(
+                                      topLeft: const Radius.circular(25.0),
+                                      topRight: const Radius.circular(25.0),
                                     ),
-                                  ],
-                                ));
+                                  ),
+                                  height: size.height * 0.8,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: FitopatologyInfo(
+                                      arquivos: widget.arquivos,
+                                      modelDiag: widget.modelDiag,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
                       },
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all<Size>(

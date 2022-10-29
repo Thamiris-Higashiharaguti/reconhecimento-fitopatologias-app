@@ -29,7 +29,7 @@ class _PreviewPageState extends State<PreviewPage>
 
   void createAlbum(File imagem) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://c024-34-125-74-51.ngrok.io/imagem'));
+        'POST', Uri.parse('http://140.238.189.149:5000/imagem'));
     request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
