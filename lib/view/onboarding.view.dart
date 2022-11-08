@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class OnbordingView extends StatefulWidget{
+class OnboardingView extends StatefulWidget{
   @override
-  State<OnbordingView> createState() => _OnbordingViewState();
+  State<OnboardingView> createState() => _OnboardingViewState();
 }
 
-class _OnbordingViewState extends State<OnbordingView> {
+class _OnboardingViewState extends State<OnboardingView> {
 
   late PageController _pageController;
 
@@ -47,33 +47,38 @@ class _OnbordingViewState extends State<OnbordingView> {
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  ...List.generate(demo_data.length, (index) => Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: DotIndicator(isActive: index == _pageIndex,),
-                  )),
-                  Spacer(),
-                  SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _pageController.nextPage(
-                          duration: Duration(milliseconds: 300), 
-                          curve: Curves.ease
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                      ),
-                      child: Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  children: [
+                    ...List.generate(demo_data.length, (index) => Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: DotIndicator(isActive: index == _pageIndex,),
+                    )),
+                    Spacer(),
+                    SizedBox(
+                      height: 60,
+                      width: 60,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _pageController.page == 2 ? 
+                          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false) :
+                          _pageController.nextPage(
+                            duration: Duration(milliseconds: 300), 
+                            curve: Curves.ease
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -95,8 +100,8 @@ class DotIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
-      height: isActive ? 12 : 4, 
-      width: 4, 
+      height: isActive ? 12 : 6, 
+      width: isActive ? 12 : 6, 
       decoration: BoxDecoration(
         color: isActive ?Colors.green : Colors.green.withOpacity(0.4),
         borderRadius: BorderRadius.all(Radius.circular(12))
@@ -116,9 +121,9 @@ class OnBoard{
 }
 
 final List<OnBoard> demo_data = [
-  OnBoard(image: "assets/icons/plant.png", title: "title", description: "description"),
-  OnBoard(image: "assets/icons/plant.png", title: "title", description: "description"),
-  OnBoard(image: "assets/icons/plant.png", title: "title", description: "description"),
+  OnBoard(image: "assets/icons/plant.png", title: "Bem vindo!", description: "O controle de pragas ficou mais fácil!"),
+  OnBoard(image: "assets/icons/plant.png", title: "Detecção de doenças", description: "Com apenas uma imagem detecte doenças na planta"),
+  OnBoard(image: "assets/icons/plant.png", title: "Dicas de tratamento", description: "Receba informações sobre a doença e dicas de tratamento"),
 ];
 
 class OnboardContent extends StatelessWidget {
