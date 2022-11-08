@@ -18,7 +18,7 @@ int? initScreen;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
+    /*options: const FirebaseOptions(
         apiKey: "AIzaSyAOHJEGbCezzhYH9JpzgiyosrB3YBPmPjE",
         authDomain: "diagplant.firebaseapp.com",
         databaseURL: "https://diagplant-default-rtdb.firebaseio.com",
@@ -26,7 +26,7 @@ void main() async {
         storageBucket: "diagplant.appspot.com",
         messagingSenderId: "461092039571",
         appId: "1:461092039571:web:ff37b2e6031c897d06d666",
-        measurementId: "G-6JXD95B72F"),
+        measurementId: "G-6JXD95B72F"),*/
   );
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
