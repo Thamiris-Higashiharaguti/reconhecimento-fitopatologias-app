@@ -87,21 +87,23 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),*/
                 Flexible(
                   child: Container(
-                    child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>?>(
                       stream: firestore
                           .collection('diagnosticos')
                           .where('uid', isEqualTo: auth.currentUser!.uid)
-                          //.orderBy('data', descending: false)
-                          //.orderBy('dataUltimaMensagem', descending: true)
+                          .orderBy('data', descending: true)
+                          // .orderBy('data')
                           .snapshots(),
                       builder: (_, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Stack();
-                        }
                         if (snapshot.hasError) {
+                          print(snapshot.error);
                           return Text("Erro");
                         }
-                        if (snapshot.data!.docs.length == 0) {
+                        if (!snapshot.hasData) {
+                          return Text("Sem dados");
+                        }
+
+                        if (snapshot.data?.docs.length == 0) {
                           print(snapshot);
                           return Stack(
                             children: [

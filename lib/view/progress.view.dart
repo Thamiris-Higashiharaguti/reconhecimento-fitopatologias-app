@@ -3,7 +3,6 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:fitopatologia_app/view/components/progressItem.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
-import 'package:fitopatologia_app/view/newsInformation.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

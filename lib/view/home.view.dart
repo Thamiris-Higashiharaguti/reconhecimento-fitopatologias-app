@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fitopatologia_app/view/catalog.view.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
-import 'package:fitopatologia_app/view/newsPage.vew.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:fitopatologia_app/view/progress.view.dart';
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                         //             ),
                         //           ],
                         //         ));
-                        currentScreen = const ProgressPage();
+                        currentScreen = const catalogFito();
                         paginaAtual.value = 0;
                       });
                     },
