@@ -60,20 +60,21 @@ dependencies:
   photo_view: ^0.14.0
   flutter_native_splash: ^2.2.13
   flutter_launcher_icons: ^0.10.0
+  shared_preferences: ^2.0.15
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: "assets/icons/plant.png"
+  image: "assets/logo.png"
   android: true
   ios: true
 
 flutter_icons:
-  image_path: "assets/icons/plant.png"
+  image_path: "assets/logo.png"
   ios: true
   remove_alpha_ios: true
   android: "launcher_icon"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/icons/plant.png"
+  adaptive_icon_foreground: "assets/logo.png"
 
 
 dev_dependencies:
@@ -106,6 +107,7 @@ flutter:
     - assets/icons/broto.png
     - assets/icons/semente.png
     - assets/icons/plant.png
+    - assets/logo.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
