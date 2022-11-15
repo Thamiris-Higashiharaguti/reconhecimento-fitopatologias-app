@@ -27,7 +27,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future carregaUsuario() async {
+  Future carregaUsuario([flag]) async {
     var user = auth.currentUser!;
     userUid = user.uid;
 
@@ -39,6 +39,10 @@ class _ProfileEditViewState extends State<ProfileEditView> {
       passwordController.text = '';
       confirmPasswordController.text = '';
     });
+    
+    if(flag == true){
+      showSuccessAlert(context, 'Sucesso!', 'Alterações salvas com sucesso');
+    }
 
     return userUid;
   }
@@ -75,8 +79,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
       setState(() {
         edicao = false;
       });
-      showSuccessAlert(context, 'Sucesso!', 'Alterações salvas com sucesso');
-      carregaUsuario();
+      carregaUsuario(true);
     } else {
       showInfoAlert(context, 'Atenção', 'Email já cadastrado');
     }
@@ -84,7 +87,7 @@ class _ProfileEditViewState extends State<ProfileEditView> {
 
   void logout(BuildContext context) {
     auth.signOut();
-    Navigator.pushNamed(context, '/login');
+    Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
   }
 
   @override

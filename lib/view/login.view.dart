@@ -25,7 +25,7 @@ class _LoginViewState extends State<LoginView> {
     try {
       var result = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     } on FirebaseAuthException catch (e) {
       authException(e);
       showInfoAlert(context, 'Atenção', errorMsg);
