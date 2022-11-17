@@ -61,6 +61,8 @@ dependencies:
   flutter_native_splash: ^2.2.13
   flutter_launcher_icons: ^0.10.0
   shared_preferences: ^2.0.15
+  connectivity_plus: ^3.0.2
+  overlay_support: ^2.1.0
 
 flutter_native_splash:
   color: "#FFFFFF"

@@ -12,7 +12,7 @@ class DiagnosticoModel {
     "https://firebasestorage.googleapis.com/v0/b/diagplant.appspot.com/o/example%2FCancro%20c%C3%ADtrico%2Fcancro.jpeg?alt=media&token=018fccb0-7084-4cb5-a56a-837399ca460b"
   ];
   List<String> greening = [
-    "greening",
+    "Greening",
     "O greening ou huanglongbing é uma doença causada pelas bactérias Candidatus Liberibacter spp, Candidatus Liberibacter africanus, Candidatus Liberibacter asiaticus e Candidatus Liberibacter americanus que afeta os citrus, deixando suas folhas amareladas e mosqueadas. ",
     "O controle do greening exige o plantio de mudas sadias, a eliminação das plantas doentes e o controle do psilídeo. A eliminação das plantas é obrigatória por lei.",
     "https://firebasestorage.googleapis.com/v0/b/diagplant.appspot.com/o/example%2Fgreening%2Fgreening.jpg?alt=media&token=a44e25ed-a9a9-4770-81f5-65da44ccb5cf"

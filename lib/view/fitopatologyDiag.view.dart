@@ -1,31 +1,44 @@
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitopatologia_app/model/fitopatology.dart';
+import 'package:fitopatologia_app/view/previewPageNetwork.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
-class FitopatolofyInfoCatalog extends StatefulWidget {
-  List<String> doenca;
-  FitopatolofyInfoCatalog({required this.doenca, super.key});
+class FitopatologyDiag extends StatefulWidget {
+  String doenca;
+  FitopatologyDiag({required this.doenca, super.key});
 
   @override
-  State<FitopatolofyInfoCatalog> createState() =>
-      _FitopatolofyInfoCatalogState();
+  State<FitopatologyDiag> createState() => _FitopatologyDiagState();
 }
 
-class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
+class _FitopatologyDiagState extends State<FitopatologyDiag> {
+  List info = [];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final controller = ScrollController();
+
+    DiagnosticoModel diagModel = DiagnosticoModel();
+
+    if (widget.doenca == "Cancro cítrico") {
+      info = diagModel.cancro;
+    } else if (widget.doenca == "Mancha Preta") {
+      info = diagModel.manchaPreta;
+      print(info);
+    } else if (widget.doenca == "Greening") {
+      info = diagModel.greening;
+    }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
         // Note the controller here
         centerTitle: true,
         title: Text(
-          widget.doenca[0],
+          info[0],
           style: TextStyle(color: Colors.black),
         ),
         elevation: 10,
@@ -63,24 +76,39 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
-                      child: CachedNetworkImage(
-                          imageUrl: widget.doenca[3],
+                  OpenContainer(
+                    transitionDuration: Duration(milliseconds: 250),
+                    closedBuilder: (context, action) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) {
+                            return Padding(
+                              padding: const EdgeInsets.all(25),
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          },
+                          imageUrl: info[3],
                           fit: BoxFit.cover,
                           height: size.height * 0.4,
                           width: size.width * 0.5,
-                          placeholder: (context, url) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(25, 50, 25, 50),
-                              child: CircularProgressIndicator.adaptive(),
-                            );
-                          })),
+                          errorWidget: (context, url, error) => Container(
+                            child: const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    openBuilder: (context, action) {
+                      return PreviewPageNetwork(photoLink: info[3]);
+                    },
+                  ),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(left: size.width * 0.04),
@@ -90,7 +118,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.doenca[0],
+                              info[0],
                               style: TextStyle(
                                   fontSize: size.width * 0.06,
                                   fontWeight: FontWeight.bold),
@@ -98,7 +126,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                             Padding(
                               padding: EdgeInsets.only(top: size.height * 0.05),
                               child: Text(
-                                widget.doenca[1],
+                                info[1],
                                 maxLines: 20,
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
@@ -128,7 +156,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
               child: Column(
                 children: [
                   Text(
-                    "Tratamento",
+                    "Tratamteno",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -138,7 +166,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                     padding: EdgeInsets.only(top: 20),
                     child: SingleChildScrollView(
                       child: Text(
-                        widget.doenca[2],
+                        info[2],
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: Colors.white,

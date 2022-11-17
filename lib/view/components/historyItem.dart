@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitopatologia_app/view/fitopatologyDiag.view.dart';
 import 'package:fitopatologia_app/view/previewPageNetwork.view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -75,25 +76,52 @@ class HistoryItem extends StatelessWidget {
             Positioned(
                 top: size.height * 0.025,
                 left: size.width * 0.27,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Diagnostico: " + diag.toString(),
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 236, 236, 236),
-                            fontSize: size.width * 0.04,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      height: size.height * 0.02,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (diag.toString() != "Saudável") {
+                              Navigator.push(context, // error
+                                  MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return FitopatologyDiag(doenca: diag);
+                                },
+                              ));
+                            }
+                          },
+                          child: Text("Diagnostico: " + diag.toString(),
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 236, 236, 236),
+                                  fontSize: size.width * 0.04,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        Text("Data: " + data.toString(),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 236, 236, 236),
+                                fontSize: size.width * 0.04,
+                                fontWeight: FontWeight.bold))
+                      ],
                     ),
-                    Text("Data: " + data.toString(),
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 236, 236, 236),
-                            fontSize: size.width * 0.04,
-                            fontWeight: FontWeight.bold))
+                    if (diag != "Saudável") ...[
+                      InkWell(
+                        child: Icon(Icons.error),
+                        onLongPress: (() {}),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Doença diagnosticada")));
+                        },
+                      )
+                    ]
                   ],
-                ))
+                )),
           ],
         ),
       ),

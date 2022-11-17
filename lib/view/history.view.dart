@@ -100,7 +100,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           return Text("Erro");
                         }
                         if (!snapshot.hasData) {
-                          return Text("Sem dados");
+                          return Center(child: CircularProgressIndicator());
                         }
 
                         if (snapshot.data?.docs.length == 0) {

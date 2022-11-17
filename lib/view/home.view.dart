@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/view/catalog.view.dart';
+import 'package:fitopatologia_app/view/components/alerts.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
 import 'package:fitopatologia_app/view/login.view.dart';
 import 'package:fitopatologia_app/view/previewPage.view.dart';
@@ -19,6 +20,7 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomePage extends StatefulWidget {
   File? teste;
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   late File _image;
   late List _results;
   final FirebaseStorage storage = FirebaseStorage.instance;
+
   File? arquivo;
   List<CameraDescription> cameras = [];
   CameraController? controller;
@@ -105,6 +108,29 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<bool> checkConnection() async {
+    final connectionStatus = await Connectivity().checkConnectivity();
+    print(connectionStatus);
+    if (connectionStatus == ConnectivityResult.mobile) {
+      return Future<bool>.value(true);
+    } else if (connectionStatus == ConnectivityResult.wifi) {
+      return Future<bool>.value(true);
+    } else {
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> getstatus() async {
+    bool stringFuture = await checkConnection();
+    bool message = stringFuture;
+    return (message);
+  }
+
+  void main() async {
+    bool c = await getstatus();
+    print(c);
+  }
+
   void getFileFromGallery() async {
     final file = await picker.getImage(source: ImageSource.gallery);
     print(file!.path);
@@ -147,22 +173,34 @@ class _HomePageState extends State<HomePage> {
             SpeedDialChild(
                 child: Icon(Icons.camera),
                 label: "Camera",
-                onTap: () {
-                  Navigator.push(
-                    context, // error
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return CameraCamera(
-                            onFile: (arquivo) => showPreview(arquivo));
-                      },
-                    ),
-                  );
+                onTap: () async {
+                  bool c = await getstatus();
+                  if (c == true) {
+                    Navigator.push(
+                      context, // error
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return CameraCamera(
+                              onFile: (arquivo) => showPreview(arquivo));
+                        },
+                      ),
+                    );
+                  } else {
+                    showInfoAlert(context, 'Sem acesso a internet',
+                        "É necessario acesso a internet para usar essa função!");
+                  }
                 }),
             SpeedDialChild(
                 child: Icon(Icons.image),
                 label: "Galeria",
-                onTap: () {
-                  getFileFromGallery();
+                onTap: () async {
+                  bool c = await getstatus();
+                  if (c == true) {
+                    getFileFromGallery();
+                  } else {
+                    showInfoAlert(context, 'Sem acesso a internet',
+                        "É necessario acesso a internet para usar essa função!");
+                  }
                 }),
           ],
         ),
