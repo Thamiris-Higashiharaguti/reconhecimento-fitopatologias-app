@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitopatologia_app/color.dart';
 import 'package:fitopatologia_app/model/fitopatology.dart';
 import 'package:fitopatologia_app/view/previewPageNetwork.view.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
@@ -39,7 +40,7 @@ class _FitopatologyDiagState extends State<FitopatologyDiag> {
         centerTitle: true,
         title: Text(
           info[0],
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
         elevation: 10,
         actions: [
@@ -59,12 +60,12 @@ class _FitopatologyDiagState extends State<FitopatologyDiag> {
                 },
                 child: Icon(
                   Icons.person_outline,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               )),
         ],
 
-        backgroundColor: Color.fromARGB(68, 76, 175, 79),
+        backgroundColor: Tema.appBarColor,
       ),
       body: ListView(
         controller: controller,

@@ -15,6 +15,6 @@ class DiagnosticoModel {
     "Greening",
     "O greening ou huanglongbing é uma doença causada pelas bactérias Candidatus Liberibacter spp, Candidatus Liberibacter africanus, Candidatus Liberibacter asiaticus e Candidatus Liberibacter americanus que afeta os citrus, deixando suas folhas amareladas e mosqueadas. ",
     "O controle do greening exige o plantio de mudas sadias, a eliminação das plantas doentes e o controle do psilídeo. A eliminação das plantas é obrigatória por lei.",
-    "https://firebasestorage.googleapis.com/v0/b/diagplant.appspot.com/o/example%2Fgreening%2Fgreening.jpg?alt=media&token=a44e25ed-a9a9-4770-81f5-65da44ccb5cf"
+    "https://firebasestorage.googleapis.com/v0/b/diagplant.appspot.com/o/example%2FGreening%2Fgreening.jpg?alt=media&token=cbae6bee-36ff-40ec-a9b3-2b14ce958e7c"
   ];
 }

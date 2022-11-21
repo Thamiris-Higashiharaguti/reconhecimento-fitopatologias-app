@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fitopatologia_app/main.dart';
 import 'package:fitopatologia_app/model/diagnostico.model.dart';
+import 'package:fitopatologia_app/view/components/alerts.dart';
 import 'package:fitopatologia_app/view/home.view.dart';
 import 'package:fitopatologia_app/view/resultPage.view.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,36 +29,51 @@ class _PreviewPageState extends State<PreviewPage>
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   void createAlbum(File imagem) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://diagplant.alvespedroso.com.br:5000/imagem'));
-    request.files.add(await http.MultipartFile.fromPath('imagem', imagem.path));
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
-    Map valueMap = json.decode(response.body);
-    Upload(valueMap['PrimeiroDiagnostico']['doenca']);
-    if (mounted) {
+    try {
+      var request = http.MultipartRequest('POST',
+          Uri.parse('http://diagplant.alvespedroso.com.br:5000/imagem'));
+      request.files
+          .add(await http.MultipartFile.fromPath('imagem', imagem.path));
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      Map valueMap = json.decode(response.body);
+      Upload(valueMap['PrimeiroDiagnostico']['doenca']);
+      if (mounted) {
+        Navigator.push(
+          context, // error
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return ResultPage(
+                foto: imagem,
+                modelPrimeiroDiag: DiagnosticoModel(
+                  valueMap['PrimeiroDiagnostico']['doenca'],
+                  valueMap['PrimeiroDiagnostico']['descricao'],
+                  double.parse(
+                      valueMap['PrimeiroDiagnostico']['probabilidade']),
+                  valueMap['PrimeiroDiagnostico']['tratamento'],
+                ),
+                modelSegundoDiag: DiagnosticoModel(
+                  valueMap['SegundoDiagnostico']['doenca'],
+                  valueMap['SegundoDiagnostico']['descricao'],
+                  double.parse(valueMap['SegundoDiagnostico']['probabilidade']),
+                  valueMap['SegundoDiagnostico']['tratamento'],
+                ),
+              );
+            },
+          ),
+        );
+      }
+    } catch (e) {
       Navigator.push(
         context, // error
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ResultPage(
-              foto: imagem,
-              modelPrimeiroDiag: DiagnosticoModel(
-                valueMap['PrimeiroDiagnostico']['doenca'],
-                valueMap['PrimeiroDiagnostico']['descricao'],
-                double.parse(valueMap['PrimeiroDiagnostico']['probabilidade']),
-                valueMap['PrimeiroDiagnostico']['tratamento'],
-              ),
-              modelSegundoDiag: DiagnosticoModel(
-                valueMap['SegundoDiagnostico']['doenca'],
-                valueMap['SegundoDiagnostico']['descricao'],
-                double.parse(valueMap['SegundoDiagnostico']['probabilidade']),
-                valueMap['SegundoDiagnostico']['tratamento'],
-              ),
-            );
+            return HomePage();
           },
         ),
       );
+      showInfoAlert(context, 'Erro para fazer upload',
+          "Não foi possível enviar a imagem ao servidor!");
     }
   }
 

@@ -73,7 +73,7 @@ class CatalogItem extends StatelessWidget {
                           padding: EdgeInsets.only(top: size.height * 0.02),
                           child: Text(
                             doenca[1],
-                            maxLines: 5,
+                            maxLines: 4,
                             textAlign: TextAlign.justify,
                             style: TextStyle(
                                 fontSize: size.width * 0.04,

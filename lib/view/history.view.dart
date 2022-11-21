@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitopatologia_app/color.dart';
 import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:fitopatologia_app/view/components/historyItem.dart';
 import 'package:fitopatologia_app/view/previewPageNetwork.view.dart';
@@ -37,7 +38,7 @@ class _HistoryPageState extends State<HistoryPage> {
           centerTitle: true,
           title: Text(
             "Histórico",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           ),
           elevation: 10,
           actions: [
@@ -57,17 +58,17 @@ class _HistoryPageState extends State<HistoryPage> {
                   },
                   child: Icon(
                     Icons.person_outline,
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 )),
           ],
 
-          backgroundColor: Color.fromARGB(68, 76, 175, 79),
+          backgroundColor: Tema.appBarColor,
         ),
         resizeToAvoidBottomInset: false,
         body: Background(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 1, 10, 0),
+            padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
             child: Column(
               children: [
                 /*Padding(
@@ -148,12 +149,16 @@ class _HistoryPageState extends State<HistoryPage> {
                                       snapshot.data!.docs[index]
                                           .data()['data']
                                           .toDate());
-                                  return HistoryItem(
-                                    data: date,
-                                    diag: snapshot.data!.docs[index]
-                                        .data()['diagnostico'],
-                                    photoLink: snapshot.data!.docs[index]
-                                        .data()['link'],
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 20, right: 20),
+                                    child: HistoryItem(
+                                      data: date,
+                                      diag: snapshot.data!.docs[index]
+                                          .data()['diagnostico'],
+                                      photoLink: snapshot.data!.docs[index]
+                                          .data()['link'],
+                                    ),
                                   );
                                 }
                               }),

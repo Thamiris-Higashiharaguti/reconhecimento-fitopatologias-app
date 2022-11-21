@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fitopatologia_app/color.dart';
 import 'package:fitopatologia_app/view/catalog.view.dart';
 import 'package:fitopatologia_app/view/components/alerts.dart';
 import 'package:fitopatologia_app/view/history.view.dart';
@@ -31,13 +32,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentTab = 0;
+  int currentTab = 1;
 
   final List<Widget> screens = [ProgressPage(), HistoryPage()];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HistoryPage();
-  var paginaAtual = 0.obs;
+  var paginaAtual = 1.obs;
 
   late File _image;
   late List _results;
@@ -168,7 +169,7 @@ class _HomePageState extends State<HomePage> {
           spaceBetweenChildren: 20,
           spacing: 10,
           child: Icon(Icons.add_a_photo),
-          backgroundColor: Color(0xFF3b8132),
+          backgroundColor: Tema.appBarColor,
           children: [
             SpeedDialChild(
                 child: Icon(Icons.camera),
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage> {
         clipBehavior: Clip.antiAlias,
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
-        color: Color(0xFF3b8132),
+        color: Tema.appBarColor,
         child: IconTheme(
             data: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
             child: Padding(
@@ -221,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.info,
                       color: paginaAtual.value == 0
-                          ? Color.fromARGB(255, 0, 0, 0)
+                          ? Color.fromARGB(255, 128, 222, 139)
                           : Color.fromARGB(255, 255, 255, 255),
                       size: paginaAtual.value == 0 ? 30 : 20,
                     ),
@@ -258,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.history,
                       color: paginaAtual.value == 1
-                          ? Color.fromARGB(255, 0, 0, 0)
+                          ? Color.fromARGB(255, 128, 222, 139)
                           : Color.fromARGB(255, 255, 255, 255),
                       size: paginaAtual.value == 1 ? 30 : 20,
                     ),

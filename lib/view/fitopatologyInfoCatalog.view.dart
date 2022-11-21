@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitopatologia_app/color.dart';
 import 'package:fitopatologia_app/view/profile.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -26,7 +27,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
         centerTitle: true,
         title: Text(
           widget.doenca[0],
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
         elevation: 10,
         actions: [
@@ -46,12 +47,12 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                 },
                 child: Icon(
                   Icons.person_outline,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               )),
         ],
 
-        backgroundColor: Color.fromARGB(68, 76, 175, 79),
+        backgroundColor: Tema.appBarColor,
       ),
       body: ListView(
         controller: controller,
@@ -92,17 +93,17 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                             Text(
                               widget.doenca[0],
                               style: TextStyle(
-                                  fontSize: size.width * 0.06,
+                                  fontSize: size.width * 0.045,
                                   fontWeight: FontWeight.bold),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.05),
+                              padding: EdgeInsets.only(top: size.height * 0.01),
                               child: Text(
                                 widget.doenca[1],
                                 maxLines: 20,
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
-                                    fontSize: size.width * 0.04,
+                                    fontSize: size.width * 0.035,
                                     overflow: TextOverflow.ellipsis),
                               ),
                             )
@@ -142,7 +143,7 @@ class _FitopatolofyInfoCatalogState extends State<FitopatolofyInfoCatalog> {
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: size.width * 0.05,
+                          fontSize: size.width * 0.045,
                         ),
                       ),
                     ),
