@@ -4,6 +4,7 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import '../color.dart';
 import 'components/alerts.dart';
 
 class RegisterView extends StatefulWidget {
@@ -153,7 +154,7 @@ class _RegisterViewState extends State<RegisterView> {
                       child: ElevatedButton(
                         child: Text("Cadastrar"),
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF3b8132),
+                            primary: Tema.primaryColor,
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(

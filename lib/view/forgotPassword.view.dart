@@ -4,6 +4,7 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import '../color.dart';
 import 'components/alerts.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -85,7 +86,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       child: ElevatedButton(
                         child: Text("Enviar"),
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF3b8132),
+                            primary: Tema.primaryColor,
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(

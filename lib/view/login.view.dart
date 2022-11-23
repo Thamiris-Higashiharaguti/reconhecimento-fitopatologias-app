@@ -4,6 +4,7 @@ import 'package:fitopatologia_app/view/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import '../color.dart';
 import 'components/alerts.dart';
 
 class LoginView extends StatefulWidget {
@@ -117,7 +118,7 @@ class _LoginViewState extends State<LoginView> {
                       GestureDetector(
                         child: Text("Esqueci minha senha",
                             style: TextStyle(
-                                color: Colors.blue,
+                                color: Tema.primaryColor,
                                 fontSize: size.height * 0.015)),
                         onTap: () {
                           Navigator.pushNamed(context, '/forgotPassword');
@@ -129,7 +130,7 @@ class _LoginViewState extends State<LoginView> {
                       child: ElevatedButton(
                         child: Text("Entrar"),
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF3b8132),
+                            primary: Tema.primaryColor,
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(
@@ -148,7 +149,7 @@ class _LoginViewState extends State<LoginView> {
                       child: ElevatedButton(
                         child: Text("Criar conta"),
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF3b8132),
+                            primary: Tema.primaryColor,
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.1, vertical: 20),
                             textStyle: TextStyle(
