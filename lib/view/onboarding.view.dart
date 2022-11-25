@@ -26,6 +26,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,7 +53,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ...List.generate(
                     demo_data.length,
                     (index) => Padding(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: const EdgeInsets.only(left: 15),
                           child: DotIndicator(
                             isActive: index == _pageIndex,
                           ),
@@ -122,15 +123,15 @@ class OnBoard {
 
 final List<OnBoard> demo_data = [
   OnBoard(
-      image: "assets/onboarding/image1.png",
+      image: "assets/onboarding/image1.jpg",
       title: "Bem vindo!",
       description: "O controle de pragas ficou mais fácil!"),
   OnBoard(
-      image: "assets/onboarding/image2.png",
+      image: "assets/onboarding/image2.jpg",
       title: "Detecção de doenças",
       description: "Com apenas uma imagem, detecte doenças na sua planta."),
   OnBoard(
-      image: "assets/onboarding/image3.png",
+      image: "assets/onboarding/image3.jpg",
       title: "Dicas de tratamento",
       description:
           "Receba informações sobre a patologia detectada e dicas de tratamento."),
@@ -150,7 +151,8 @@ class OnboardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(image, height: 500,),
+        Image.asset(image, height: 400,),
+        const Spacer(),
         Text(
           title,
           textAlign: TextAlign.center,
